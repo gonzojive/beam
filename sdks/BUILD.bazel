@@ -1,0 +1,19 @@
+load("@bazel_gazelle//:def.bzl", "gazelle")
+
+package(default_visibility = ["//:__subpackages__"])
+
+# gazelle:prefix github.com/apache/beam/sdks/v2
+# gazelle:exclude bazel-beam-go-k8s
+# gazelle:exclude bazel-bin
+# gazelle:exclude bazel-out
+gazelle(name = "gazelle")
+
+gazelle(
+    name = "gazelle-update-repos",
+    args = [
+        "-from_file=go.mod",
+        "-to_macro=workspace_go_repositories.bzl%gazelle_managed_go_repositories",
+        "-prune",
+    ],
+    command = "update-repos",
+)
