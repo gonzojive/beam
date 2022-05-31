@@ -2,7 +2,7 @@ load("@bazel_gazelle//:def.bzl", "gazelle")
 
 package(default_visibility = ["//:__subpackages__"])
 
-# gazelle:prefix github.com/apache/beam/sdks
+# gazelle:prefix github.com/apache/beam/sdks/v2
 # gazelle:exclude bazel-sdks
 # gazelle:exclude bazel-bin
 # gazelle:exclude bazel-out
