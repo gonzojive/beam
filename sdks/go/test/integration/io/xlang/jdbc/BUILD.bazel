@@ -1,0 +1,34 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "jdbc",
+    srcs = ["jdbc.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/test/integration/io/xlang/jdbc",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/io/xlang/jdbcio",
+        "//go/pkg/beam/testing/passert",
+    ],
+)
+
+go_test(
+    name = "jdbc_test",
+    srcs = ["jdbc_test.go"],
+    embed = [":jdbc"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/runners/dataflow",
+        "//go/pkg/beam/runners/flink",
+        "//go/pkg/beam/runners/samza",
+        "//go/pkg/beam/runners/spark",
+        "//go/pkg/beam/testing/ptest",
+        "//go/test/integration",
+        "@com_github_docker_go_connections//nat",
+        "@com_github_go_sql_driver_mysql//:mysql",
+        "@com_github_lib_pq//:pq",
+        "@com_github_testcontainers_testcontainers_go//:testcontainers-go",
+        "@com_github_testcontainers_testcontainers_go//wait",
+        "@in_gopkg_retry_v1//:retry_v1",
+    ],
+)

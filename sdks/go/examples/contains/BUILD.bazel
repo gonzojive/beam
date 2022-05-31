@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "contains_lib",
+    srcs = ["contains.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/examples/contains",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/io/textio",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/transforms/stats",
+        "//go/pkg/beam/x/beamx",
+        "//go/pkg/beam/x/debug",
+    ],
+)
+
+go_binary(
+    name = "contains",
+    embed = [":contains_lib"],
+    visibility = ["//visibility:public"],
+)

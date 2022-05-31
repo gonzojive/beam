@@ -1,0 +1,23 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "combine_lib",
+    srcs = ["combine.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/test/load/combine",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/io/synthetic",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/register",
+        "//go/pkg/beam/transforms/top",
+        "//go/pkg/beam/x/beamx",
+        "//go/test/load",
+    ],
+)
+
+go_binary(
+    name = "combine",
+    embed = [":combine_lib"],
+    visibility = ["//visibility:public"],
+)

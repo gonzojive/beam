@@ -1,0 +1,25 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "extworker",
+    srcs = ["extworker.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/runners/universal/extworker",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/core/runtime/harness",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/model/fnexecution_v1",
+        "//go/pkg/beam/util/grpcx",
+        "@org_golang_google_grpc//:go_default_library",
+    ],
+)
+
+go_test(
+    name = "extworker_test",
+    srcs = ["extworker_test.go"],
+    embed = [":extworker"],
+    deps = [
+        "//go/pkg/beam/model/fnexecution_v1",
+        "//go/pkg/beam/model/pipeline_v1",
+    ],
+)

@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "testutil",
+    srcs = ["testutil.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/graph/coder/testutil",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/core/graph/coder",
+        "@com_github_google_go_cmp//cmp",
+    ],
+)
+
+go_test(
+    name = "testutil_test",
+    srcs = ["testutil_test.go"],
+    embed = [":testutil"],
+    deps = ["//go/pkg/beam/core/graph/coder"],
+)

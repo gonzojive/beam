@@ -1,0 +1,27 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "synthetic",
+    srcs = [
+        "rand.go",
+        "source.go",
+        "step.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/io/synthetic",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/sdf",
+        "//go/pkg/beam/io/rtrackers/offsetrange",
+        "//go/pkg/beam/register",
+    ],
+)
+
+go_test(
+    name = "synthetic_test",
+    srcs = [
+        "source_test.go",
+        "step_test.go",
+    ],
+    embed = [":synthetic"],
+)

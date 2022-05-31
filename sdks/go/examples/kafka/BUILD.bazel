@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "kafka_lib",
+    srcs = ["taxi.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/examples/kafka",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/graph/window",
+        "//go/pkg/beam/io/pubsubio",
+        "//go/pkg/beam/io/xlang/kafkaio",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/x/beamx",
+    ],
+)
+
+go_binary(
+    name = "kafka",
+    embed = [":kafka_lib"],
+    visibility = ["//visibility:public"],
+)

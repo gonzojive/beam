@@ -1,0 +1,23 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "statecache",
+    srcs = ["statecache.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/runtime/harness/statecache",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/core/runtime/exec",
+        "//go/pkg/beam/internal/errors",
+        "//go/pkg/beam/model/fnexecution_v1",
+    ],
+)
+
+go_test(
+    name = "statecache_test",
+    srcs = ["statecache_test.go"],
+    embed = [":statecache"],
+    deps = [
+        "//go/pkg/beam/core/runtime/exec",
+        "//go/pkg/beam/model/fnexecution_v1",
+    ],
+)

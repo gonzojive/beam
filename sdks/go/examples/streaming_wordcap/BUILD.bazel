@@ -1,0 +1,24 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "streaming_wordcap_lib",
+    srcs = ["wordcap.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/examples/streaming_wordcap",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/util/stringx",
+        "//go/pkg/beam/io/pubsubio",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/options/gcpopts",
+        "//go/pkg/beam/util/pubsubx",
+        "//go/pkg/beam/x/beamx",
+        "//go/pkg/beam/x/debug",
+    ],
+)
+
+go_binary(
+    name = "streaming_wordcap",
+    embed = [":streaming_wordcap_lib"],
+    visibility = ["//visibility:public"],
+)

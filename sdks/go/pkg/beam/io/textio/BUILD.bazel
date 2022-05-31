@@ -1,0 +1,28 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "textio",
+    srcs = ["textio.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/io/textio",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/sdf",
+        "//go/pkg/beam/internal/errors",
+        "//go/pkg/beam/io/filesystem",
+        "//go/pkg/beam/io/rtrackers/offsetrange",
+        "//go/pkg/beam/log",
+    ],
+)
+
+go_test(
+    name = "textio_test",
+    srcs = ["textio_test.go"],
+    embed = [":textio"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/io/filesystem/local",
+        "//go/pkg/beam/testing/passert",
+        "//go/pkg/beam/testing/ptest",
+    ],
+)

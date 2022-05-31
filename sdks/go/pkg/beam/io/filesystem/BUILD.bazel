@@ -1,0 +1,21 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "filesystem",
+    srcs = [
+        "filesystem.go",
+        "util.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/io/filesystem",
+    visibility = ["//visibility:public"],
+    deps = ["//go/pkg/beam/internal/errors"],
+)
+
+go_test(
+    name = "filesystem_test",
+    srcs = [
+        "filesystem_test.go",
+        "util_test.go",
+    ],
+    embed = [":filesystem"],
+)

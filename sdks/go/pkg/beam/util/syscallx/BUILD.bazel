@@ -1,0 +1,13 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "syscallx",
+    srcs = [
+        "syscall.go",
+        "syscall_default.go",
+        "syscall_linux.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/util/syscallx",
+    visibility = ["//visibility:public"],
+    deps = ["//go/pkg/beam/internal/errors"],
+)

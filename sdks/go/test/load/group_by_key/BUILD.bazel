@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "group_by_key_lib",
+    srcs = ["group_by_key.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/test/load/group_by_key",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/io/synthetic",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/register",
+        "//go/pkg/beam/x/beamx",
+        "//go/test/load",
+    ],
+)
+
+go_binary(
+    name = "group_by_key",
+    embed = [":group_by_key_lib"],
+    visibility = ["//visibility:public"],
+)

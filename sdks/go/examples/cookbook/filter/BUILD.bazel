@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "filter_lib",
+    srcs = ["filter.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/examples/cookbook/filter",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/io/bigqueryio",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/options/gcpopts",
+        "//go/pkg/beam/transforms/stats",
+        "//go/pkg/beam/x/beamx",
+    ],
+)
+
+go_binary(
+    name = "filter",
+    embed = [":filter_lib"],
+    visibility = ["//visibility:public"],
+)

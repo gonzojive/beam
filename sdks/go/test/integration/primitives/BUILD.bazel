@@ -1,0 +1,52 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "primitives",
+    srcs = [
+        "checkpointing.go",
+        "cogbk.go",
+        "flatten.go",
+        "pardo.go",
+        "teststream.go",
+        "window_panes.go",
+        "windowinto.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/test/integration/primitives",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/graph/mtime",
+        "//go/pkg/beam/core/graph/window",
+        "//go/pkg/beam/core/graph/window/trigger",
+        "//go/pkg/beam/core/sdf",
+        "//go/pkg/beam/io/rtrackers/offsetrange",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/testing/passert",
+        "//go/pkg/beam/testing/teststream",
+        "//go/pkg/beam/transforms/stats",
+    ],
+)
+
+go_test(
+    name = "primitives_test",
+    srcs = [
+        "checkpointing_test.go",
+        "cogbk_test.go",
+        "flatten_test.go",
+        "pardo_test.go",
+        "primitives_test.go",
+        "teststream_test.go",
+        "window_panes_test.go",
+        "windowinto_test.go",
+    ],
+    embed = [":primitives"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/runners/dataflow",
+        "//go/pkg/beam/runners/flink",
+        "//go/pkg/beam/runners/samza",
+        "//go/pkg/beam/runners/spark",
+        "//go/pkg/beam/testing/ptest",
+        "//go/test/integration",
+    ],
+)

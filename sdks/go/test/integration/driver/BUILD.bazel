@@ -1,0 +1,23 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "driver_lib",
+    srcs = ["driver.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/test/integration/driver",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/io/filesystem/memfs",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/x/beamx",
+        "//go/test/integration/primitives",
+        "//go/test/integration/synthetic",
+        "//go/test/integration/wordcount",
+    ],
+)
+
+go_binary(
+    name = "driver",
+    embed = [":driver_lib"],
+    visibility = ["//visibility:public"],
+)

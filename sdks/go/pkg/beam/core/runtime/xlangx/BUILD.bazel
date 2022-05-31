@@ -1,0 +1,49 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "xlangx",
+    srcs = [
+        "expand.go",
+        "namespace.go",
+        "payload.go",
+        "registry.go",
+        "resolve.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/runtime/xlangx",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/artifact",
+        "//go/pkg/beam/core",
+        "//go/pkg/beam/core/graph",
+        "//go/pkg/beam/core/graph/coder",
+        "//go/pkg/beam/core/runtime/graphx",
+        "//go/pkg/beam/core/runtime/graphx/schema",
+        "//go/pkg/beam/core/runtime/pipelinex",
+        "//go/pkg/beam/core/runtime/xlangx/expansionx",
+        "//go/pkg/beam/core/util/protox",
+        "//go/pkg/beam/internal/errors",
+        "//go/pkg/beam/model/jobmanagement_v1",
+        "//go/pkg/beam/model/pipeline_v1",
+        "@org_golang_google_grpc//:go_default_library",
+        "@org_golang_google_protobuf//proto",
+    ],
+)
+
+go_test(
+    name = "xlangx_test",
+    srcs = [
+        "namespace_test.go",
+        "payload_test.go",
+        "registry_test.go",
+        "resolve_test.go",
+    ],
+    embed = [":xlangx"],
+    deps = [
+        "//go/pkg/beam/core/graph",
+        "//go/pkg/beam/model/jobmanagement_v1",
+        "//go/pkg/beam/model/pipeline_v1",
+        "@com_github_golang_protobuf//proto:go_default_library",
+        "@com_github_google_go_cmp//cmp",
+        "@org_golang_google_protobuf//testing/protocmp",
+    ],
+)

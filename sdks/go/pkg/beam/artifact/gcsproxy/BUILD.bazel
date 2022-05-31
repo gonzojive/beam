@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "gcsproxy",
+    srcs = [
+        "retrieval.go",
+        "staging.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/artifact/gcsproxy",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/internal/errors",
+        "//go/pkg/beam/model/jobmanagement_v1",
+        "//go/pkg/beam/util/gcsx",
+        "@com_github_golang_protobuf//proto:go_default_library",
+        "@com_google_cloud_go_storage//:storage",
+        "@org_golang_x_net//context",
+    ],
+)

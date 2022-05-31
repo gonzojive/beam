@@ -1,0 +1,42 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "direct",
+    srcs = [
+        "buffer.go",
+        "direct.go",
+        "gbk.go",
+        "impulse.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/runners/direct",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/graph",
+        "//go/pkg/beam/core/graph/mtime",
+        "//go/pkg/beam/core/graph/window",
+        "//go/pkg/beam/core/metrics",
+        "//go/pkg/beam/core/runtime/exec",
+        "//go/pkg/beam/core/typex",
+        "//go/pkg/beam/internal/errors",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/options/jobopts",
+        "//go/pkg/beam/runners/vet",
+    ],
+)
+
+go_test(
+    name = "direct_test",
+    srcs = [
+        "direct_test.go",
+        "gbk_test.go",
+    ],
+    embed = [":direct"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/graph/window",
+        "//go/pkg/beam/core/metrics",
+        "//go/pkg/beam/core/typex",
+        "@com_github_google_go_cmp//cmp",
+    ],
+)

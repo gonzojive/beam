@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "yatzy_lib",
+    srcs = ["yatzy.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/examples/yatzy",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/x/beamx",
+    ],
+)
+
+go_binary(
+    name = "yatzy",
+    embed = [":yatzy_lib"],
+    visibility = ["//visibility:public"],
+)

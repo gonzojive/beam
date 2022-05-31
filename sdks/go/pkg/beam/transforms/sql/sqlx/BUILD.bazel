@@ -1,0 +1,9 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "sqlx",
+    srcs = ["sqlx.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/transforms/sql/sqlx",
+    visibility = ["//visibility:public"],
+    deps = ["//go/pkg/beam/core/runtime/xlangx"],
+)

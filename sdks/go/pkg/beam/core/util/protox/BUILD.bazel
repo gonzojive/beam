@@ -1,0 +1,28 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "protox",
+    srcs = [
+        "any.go",
+        "base64.go",
+        "protox.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/util/protox",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/internal/errors",
+        "@com_github_golang_protobuf//proto:go_default_library",
+        "@io_bazel_rules_go//proto/wkt:any_go_proto",
+        "@io_bazel_rules_go//proto/wkt:wrappers_go_proto",
+    ],
+)
+
+go_test(
+    name = "protox_test",
+    srcs = ["any_test.go"],
+    embed = [":protox"],
+    deps = [
+        "@com_github_golang_protobuf//proto:go_default_library",
+        "@io_bazel_rules_go//proto/wkt:wrappers_go_proto",
+    ],
+)

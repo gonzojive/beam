@@ -1,0 +1,14 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "errorx",
+    srcs = ["guarded.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/util/errorx",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "errorx_test",
+    srcs = ["guarded_test.go"],
+    embed = [":errorx"],
+)

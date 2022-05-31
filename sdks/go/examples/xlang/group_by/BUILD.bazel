@@ -1,0 +1,23 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "group_by_lib",
+    srcs = ["group_by.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/examples/xlang/group_by",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//go/examples/xlang",
+        "//go/pkg/beam",
+        "//go/pkg/beam/io/filesystem/gcs",
+        "//go/pkg/beam/io/filesystem/local",
+        "//go/pkg/beam/runners/universal",
+        "//go/pkg/beam/testing/passert",
+        "//go/pkg/beam/x/beamx",
+    ],
+)
+
+go_binary(
+    name = "group_by",
+    embed = [":group_by_lib"],
+    visibility = ["//visibility:public"],
+)

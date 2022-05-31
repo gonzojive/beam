@@ -1,0 +1,20 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "ptest",
+    srcs = ["ptest.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/testing/ptest",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/runners",
+        "//go/pkg/beam/runners/direct",
+    ],
+)
+
+go_test(
+    name = "ptest_test",
+    srcs = ["ptest_test.go"],
+    embed = [":ptest"],
+    deps = ["//go/pkg/beam/testing/passert"],
+)

@@ -1,0 +1,15 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "symtab",
+    srcs = ["symtab.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/util/symtab",
+    visibility = ["//visibility:public"],
+    deps = ["//go/pkg/beam/internal/errors"],
+)
+
+go_test(
+    name = "symtab_test",
+    srcs = ["symtab_test.go"],
+    embed = [":symtab"],
+)

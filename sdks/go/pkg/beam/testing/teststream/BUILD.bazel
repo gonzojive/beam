@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "teststream",
+    srcs = ["teststream.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/testing/teststream",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/graph/mtime",
+        "//go/pkg/beam/core/typex",
+        "//go/pkg/beam/core/util/protox",
+        "//go/pkg/beam/model/pipeline_v1",
+    ],
+)
+
+go_test(
+    name = "teststream_test",
+    srcs = ["teststream_test.go"],
+    embed = [":teststream"],
+    deps = ["//go/pkg/beam"],
+)

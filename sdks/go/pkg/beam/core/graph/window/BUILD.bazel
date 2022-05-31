@@ -1,0 +1,31 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "window",
+    srcs = [
+        "fn.go",
+        "strategy.go",
+        "windows.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/graph/window",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/core/graph/coder",
+        "//go/pkg/beam/core/graph/mtime",
+        "//go/pkg/beam/core/graph/window/trigger",
+        "//go/pkg/beam/core/typex",
+    ],
+)
+
+go_test(
+    name = "window_test",
+    srcs = [
+        "fn_test.go",
+        "windows_test.go",
+    ],
+    embed = [":window"],
+    deps = [
+        "//go/pkg/beam/core/graph/mtime",
+        "//go/pkg/beam/core/typex",
+    ],
+)

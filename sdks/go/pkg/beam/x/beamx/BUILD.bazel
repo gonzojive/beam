@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "beamx",
+    srcs = ["run.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/x/beamx",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/runtime/exec/optimized",
+        "//go/pkg/beam/io/filesystem/gcs",
+        "//go/pkg/beam/io/filesystem/local",
+        "//go/pkg/beam/runners",
+        "//go/pkg/beam/runners/dataflow",
+        "//go/pkg/beam/runners/direct",
+        "//go/pkg/beam/runners/dot",
+        "//go/pkg/beam/runners/flink",
+        "//go/pkg/beam/runners/samza",
+        "//go/pkg/beam/runners/spark",
+        "//go/pkg/beam/runners/universal",
+    ],
+)

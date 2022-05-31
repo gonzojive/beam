@@ -1,0 +1,31 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "runnerlib",
+    srcs = [
+        "compile.go",
+        "execute.go",
+        "job.go",
+        "stage.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/runners/universal/runnerlib",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/artifact",
+        "//go/pkg/beam/core/metrics",
+        "//go/pkg/beam/core/runtime",
+        "//go/pkg/beam/core/runtime/graphx",
+        "//go/pkg/beam/core/runtime/metricsx",
+        "//go/pkg/beam/core/util/hooks",
+        "//go/pkg/beam/core/util/protox",
+        "//go/pkg/beam/internal/errors",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/model/jobmanagement_v1",
+        "//go/pkg/beam/model/pipeline_v1",
+        "//go/pkg/beam/provision",
+        "//go/pkg/beam/util/grpcx",
+        "@com_github_golang_protobuf//proto:go_default_library",
+        "@org_golang_google_grpc//:go_default_library",
+    ],
+)

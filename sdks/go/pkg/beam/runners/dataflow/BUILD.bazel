@@ -1,0 +1,33 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "dataflow",
+    srcs = ["dataflow.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/runners/dataflow",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/runtime/graphx",
+        "//go/pkg/beam/core/runtime/pipelinex",
+        "//go/pkg/beam/core/util/hooks",
+        "//go/pkg/beam/internal/errors",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/options/gcpopts",
+        "//go/pkg/beam/options/jobopts",
+        "//go/pkg/beam/runners/dataflow/dataflowlib",
+        "//go/pkg/beam/util/gcsx",
+        "//go/pkg/beam/x/hooks/perf",
+        "@com_github_golang_protobuf//proto:go_default_library",
+        "@com_google_cloud_go_storage//:storage",
+    ],
+)
+
+go_test(
+    name = "dataflow_test",
+    srcs = ["dataflow_test.go"],
+    embed = [":dataflow"],
+    deps = [
+        "//go/pkg/beam/options/gcpopts",
+        "//go/pkg/beam/options/jobopts",
+    ],
+)

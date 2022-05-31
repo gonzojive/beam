@@ -1,0 +1,14 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "jdbcio",
+    srcs = ["jdbc.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/io/xlang/jdbcio",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/graph/coder",
+        "//go/pkg/beam/core/runtime/xlangx",
+        "//go/pkg/beam/core/typex",
+    ],
+)

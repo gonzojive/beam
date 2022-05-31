@@ -1,0 +1,23 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "bigqueryio",
+    srcs = ["bigquery.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/io/bigqueryio",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/util/reflectx",
+        "//go/pkg/beam/internal/errors",
+        "@com_google_cloud_go_bigquery//:bigquery",
+        "@org_golang_google_api//bigquery/v2:bigquery",
+        "@org_golang_google_api//googleapi",
+        "@org_golang_google_api//iterator",
+    ],
+)
+
+go_test(
+    name = "bigqueryio_test",
+    srcs = ["bigquery_test.go"],
+    embed = [":bigqueryio"],
+)

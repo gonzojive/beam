@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "grades_lib",
+    srcs = ["grades.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/examples/grades",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/transforms/stats",
+        "//go/pkg/beam/transforms/top",
+        "//go/pkg/beam/x/beamx",
+        "//go/pkg/beam/x/debug",
+    ],
+)
+
+go_binary(
+    name = "grades",
+    embed = [":grades_lib"],
+    visibility = ["//visibility:public"],
+)

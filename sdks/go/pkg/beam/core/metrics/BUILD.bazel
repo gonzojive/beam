@@ -1,0 +1,30 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "metrics",
+    srcs = [
+        "dumper.go",
+        "metrics.go",
+        "sampler.go",
+        "store.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/metrics",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/core/util/ioutilx",
+        "//go/pkg/beam/log",
+    ],
+)
+
+go_test(
+    name = "metrics_test",
+    srcs = [
+        "metrics_test.go",
+        "sampler_test.go",
+    ],
+    embed = [":metrics"],
+    deps = [
+        "@com_github_google_go_cmp//cmp",
+        "@com_github_google_go_cmp//cmp/cmpopts",
+    ],
+)

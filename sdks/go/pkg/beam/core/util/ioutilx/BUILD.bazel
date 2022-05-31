@@ -1,0 +1,21 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "ioutilx",
+    srcs = [
+        "read.go",
+        "write.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/util/ioutilx",
+    visibility = ["//visibility:public"],
+    deps = ["//go/pkg/beam/internal/errors"],
+)
+
+go_test(
+    name = "ioutilx_test",
+    srcs = [
+        "read_test.go",
+        "write_test.go",
+    ],
+    embed = [":ioutilx"],
+)

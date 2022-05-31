@@ -1,0 +1,31 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "reflectx",
+    srcs = [
+        "call.go",
+        "calls.go",
+        "functions.go",
+        "structs.go",
+        "types.go",
+        "util.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/util/reflectx",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/internal/errors",
+        "//go/pkg/beam/log",
+    ],
+)
+
+go_test(
+    name = "reflectx_test",
+    srcs = [
+        "call_test.go",
+        "functions_test.go",
+        "structs_test.go",
+        "types_test.go",
+        "util_test.go",
+    ],
+    embed = [":reflectx"],
+)

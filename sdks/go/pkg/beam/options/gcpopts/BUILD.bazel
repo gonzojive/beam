@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "gcpopts",
+    srcs = ["options.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/options/gcpopts",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/log",
+        "@com_google_cloud_go_storage//:storage",
+        "@org_golang_x_oauth2//google",
+    ],
+)
+
+go_test(
+    name = "gcpopts_test",
+    srcs = ["options_test.go"],
+    embed = [":gcpopts"],
+)

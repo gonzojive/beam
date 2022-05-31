@@ -1,0 +1,48 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "stats",
+    srcs = [
+        "count.go",
+        "max.go",
+        "max_switch.go",
+        "mean.go",
+        "min.go",
+        "min_switch.go",
+        "quantiles.go",
+        "stats.shims.go",
+        "sum.go",
+        "sum_switch.go",
+        "util.go",
+        "util_gen.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/transforms/stats",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/runtime",
+        "//go/pkg/beam/core/runtime/graphx/schema",
+        "//go/pkg/beam/core/typex",
+        "//go/pkg/beam/core/util/reflectx",
+    ],
+)
+
+go_test(
+    name = "stats_test",
+    srcs = [
+        "count_test.go",
+        "max_test.go",
+        "mean_test.go",
+        "min_test.go",
+        "quantiles_test.go",
+        "sum_test.go",
+    ],
+    embed = [":stats"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/util/reflectx",
+        "//go/pkg/beam/testing/passert",
+        "//go/pkg/beam/testing/ptest",
+        "@com_github_google_go_cmp//cmp",
+    ],
+)

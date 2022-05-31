@@ -1,0 +1,28 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "metricsx",
+    srcs = [
+        "metricsx.go",
+        "urns.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/runtime/metricsx",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/core/graph/coder",
+        "//go/pkg/beam/core/graph/mtime",
+        "//go/pkg/beam/core/metrics",
+        "//go/pkg/beam/model/pipeline_v1",
+    ],
+)
+
+go_test(
+    name = "metricsx_test",
+    srcs = ["metricsx_test.go"],
+    embed = [":metricsx"],
+    deps = [
+        "//go/pkg/beam/core/metrics",
+        "//go/pkg/beam/model/pipeline_v1",
+        "@com_github_google_go_cmp//cmp",
+    ],
+)

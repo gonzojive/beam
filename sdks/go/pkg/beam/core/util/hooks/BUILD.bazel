@@ -1,0 +1,25 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "hooks",
+    srcs = ["hooks.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/util/hooks",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/core/runtime",
+        "//go/pkg/beam/internal/errors",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/model/fnexecution_v1",
+    ],
+)
+
+go_test(
+    name = "hooks_test",
+    srcs = ["hooks_test.go"],
+    embed = [":hooks"],
+    deps = [
+        "//go/pkg/beam/core/runtime",
+        "//go/pkg/beam/model/fnexecution_v1",
+        "@com_github_google_go_cmp//cmp",
+    ],
+)

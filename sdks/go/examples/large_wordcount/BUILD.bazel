@@ -1,0 +1,46 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library", "go_test")
+
+go_library(
+    name = "large_wordcount_lib",
+    srcs = ["large_wordcount.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/examples/large_wordcount",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/io/filesystem",
+        "//go/pkg/beam/io/filesystem/gcs",
+        "//go/pkg/beam/io/filesystem/local",
+        "//go/pkg/beam/io/rtrackers/offsetrange",
+        "//go/pkg/beam/io/textio",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/runners/dataflow",
+        "//go/pkg/beam/runners/direct",
+        "//go/pkg/beam/runners/dot",
+        "//go/pkg/beam/runners/flink",
+        "//go/pkg/beam/runners/samza",
+        "//go/pkg/beam/runners/spark",
+        "//go/pkg/beam/runners/universal",
+        "//go/pkg/beam/transforms/stats",
+        "//go/pkg/beam/x/beamx",
+    ],
+)
+
+go_binary(
+    name = "large_wordcount",
+    embed = [":large_wordcount_lib"],
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "large_wordcount_test",
+    srcs = ["large_wordcount_test.go"],
+    embed = [":large_wordcount_lib"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/metrics",
+        "//go/pkg/beam/options/jobopts",
+        "//go/pkg/beam/testing/passert",
+        "//go/pkg/beam/testing/ptest",
+        "//go/test/integration",
+    ],
+)

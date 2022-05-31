@@ -1,0 +1,21 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "testpipeline",
+    srcs = [
+        "functions.go",
+        "testpipeline.go",
+        "testpipeline.shims.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/runners/vet/testpipeline",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/runtime",
+        "//go/pkg/beam/core/runtime/exec",
+        "//go/pkg/beam/core/runtime/graphx/schema",
+        "//go/pkg/beam/core/sdf",
+        "//go/pkg/beam/core/typex",
+        "//go/pkg/beam/core/util/reflectx",
+    ],
+)

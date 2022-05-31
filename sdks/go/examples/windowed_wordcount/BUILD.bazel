@@ -1,0 +1,23 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "windowed_wordcount_lib",
+    srcs = ["windowed_wordcount.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/examples/windowed_wordcount",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/graph/mtime",
+        "//go/pkg/beam/core/graph/window",
+        "//go/pkg/beam/io/textio",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/x/beamx",
+        "//go/test/integration/wordcount",
+    ],
+)
+
+go_binary(
+    name = "windowed_wordcount",
+    embed = [":windowed_wordcount_lib"],
+    visibility = ["//visibility:public"],
+)
