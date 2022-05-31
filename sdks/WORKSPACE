@@ -39,8 +39,8 @@ go_register_toolchains(version = "1.18.2")
 go_repository(
     name = "org_golang_x_xerrors",  # keep
     importpath = "golang.org/x/xerrors",
-    sum = "h1:go1bK/D/BFZV2I8cIQd1NKEZ+0owSTG1fDTci4IqFcE=",
-    version = "v0.0.0-20200804184101-5ec99f83aff1",
+    sum = "h1:5Pf6pFKu98ODmgnpvkJ3kFUOQGGLIzLIkbzUHp47618=",
+    version = "v0.0.0-20220517211312-f3a8303e98df",
 )
 
 load("//:workspace_go_repositories.bzl", "gazelle_managed_go_repositories")
