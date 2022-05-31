@@ -1,0 +1,20 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "mtime",
+    srcs = ["time.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/graph/mtime",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "mtime_test",
+    srcs = ["time_test.go"],
+    embed = [":mtime"],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":mtime",
+    visibility = ["//visibility:public"],
+)

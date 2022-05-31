@@ -1,0 +1,18 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "flink",
+    srcs = ["flink.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/runners/flink",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/runners/universal",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":flink",
+    visibility = ["//visibility:public"],
+)

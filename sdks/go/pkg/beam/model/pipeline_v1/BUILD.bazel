@@ -1,0 +1,32 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "pipeline_v1",
+    srcs = [
+        "beam_runner_api.pb.go",
+        "beam_runner_api_grpc.pb.go",
+        "endpoints.pb.go",
+        "external_transforms.pb.go",
+        "metrics.pb.go",
+        "schema.pb.go",
+        "standard_window_fns.pb.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/model/pipeline_v1",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@org_golang_google_grpc//:go_default_library",
+        "@org_golang_google_grpc//codes",
+        "@org_golang_google_grpc//status",
+        "@org_golang_google_protobuf//reflect/protoreflect",
+        "@org_golang_google_protobuf//runtime/protoimpl",
+        "@org_golang_google_protobuf//types/descriptorpb",
+        "@org_golang_google_protobuf//types/known/durationpb",
+        "@org_golang_google_protobuf//types/known/timestamppb",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":pipeline_v1",
+    visibility = ["//visibility:public"],
+)

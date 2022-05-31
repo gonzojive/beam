@@ -1,0 +1,21 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "stringsplit_lib",
+    srcs = ["stringsplit.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/examples/stringsplit",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/sdf",
+        "//go/pkg/beam/io/rtrackers/offsetrange",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/x/beamx",
+    ],
+)
+
+go_binary(
+    name = "stringsplit",
+    embed = [":stringsplit_lib"],
+    visibility = ["//visibility:public"],
+)

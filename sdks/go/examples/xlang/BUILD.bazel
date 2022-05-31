@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "xlang",
+    srcs = ["transforms.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/examples/xlang",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/typex",
+        "//go/pkg/beam/core/util/reflectx",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":xlang",
+    visibility = ["//visibility:public"],
+)

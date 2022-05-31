@@ -1,0 +1,20 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "bigqueryio",
+    srcs = ["bigquery.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/io/xlang/bigqueryio",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/runtime/xlangx",
+        "//go/pkg/beam/core/typex",
+        "//go/pkg/beam/io/xlang/schemaio",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":bigqueryio",
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "symtab_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/cmd/symtab",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//go/pkg/beam/core/funcx",
+        "//go/pkg/beam/core/util/reflectx",
+        "//go/pkg/beam/core/util/symtab",
+    ],
+)
+
+go_binary(
+    name = "symtab",
+    embed = [":symtab_lib"],
+    visibility = ["//visibility:public"],
+)

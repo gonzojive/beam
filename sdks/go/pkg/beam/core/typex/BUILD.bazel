@@ -1,0 +1,33 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "typex",
+    srcs = [
+        "class.go",
+        "fulltype.go",
+        "special.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/typex",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/core/graph/mtime",
+        "//go/pkg/beam/core/util/reflectx",
+        "//go/pkg/beam/internal/errors",
+    ],
+)
+
+go_test(
+    name = "typex_test",
+    srcs = [
+        "class_test.go",
+        "fulltype_test.go",
+    ],
+    embed = [":typex"],
+    deps = ["//go/pkg/beam/core/util/reflectx"],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":typex",
+    visibility = ["//visibility:public"],
+)

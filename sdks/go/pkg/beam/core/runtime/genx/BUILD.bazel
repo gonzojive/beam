@@ -1,0 +1,33 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "genx",
+    srcs = ["genx.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/runtime/genx",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/core/funcx",
+        "//go/pkg/beam/core/graph",
+        "//go/pkg/beam/core/runtime",
+    ],
+)
+
+go_test(
+    name = "genx_test",
+    srcs = ["genx_test.go"],
+    embed = [":genx"],
+    deps = [
+        "//go/pkg/beam/core/runtime",
+        "//go/pkg/beam/core/sdf",
+        "//go/pkg/beam/core/typex",
+        "//go/pkg/beam/core/util/reflectx",
+        "@com_github_google_go_cmp//cmp",
+        "@com_github_google_go_cmp//cmp/cmpopts",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":genx",
+    visibility = ["//visibility:public"],
+)

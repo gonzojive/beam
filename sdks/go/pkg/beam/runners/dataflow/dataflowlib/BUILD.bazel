@@ -1,0 +1,65 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "dataflowlib",
+    srcs = [
+        "execute.go",
+        "fixup.go",
+        "job.go",
+        "messages.go",
+        "metrics.go",
+        "stage.go",
+        "translate.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/runners/dataflow/dataflowlib",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/core",
+        "//go/pkg/beam/core/graph",
+        "//go/pkg/beam/core/graph/coder",
+        "//go/pkg/beam/core/graph/mtime",
+        "//go/pkg/beam/core/graph/window",
+        "//go/pkg/beam/core/metrics",
+        "//go/pkg/beam/core/runtime",
+        "//go/pkg/beam/core/runtime/exec",
+        "//go/pkg/beam/core/runtime/graphx",
+        "//go/pkg/beam/core/runtime/harness/init",
+        "//go/pkg/beam/core/runtime/pipelinex",
+        "//go/pkg/beam/core/runtime/xlangx",
+        "//go/pkg/beam/core/typex",
+        "//go/pkg/beam/core/util/protox",
+        "//go/pkg/beam/core/util/reflectx",
+        "//go/pkg/beam/core/util/stringx",
+        "//go/pkg/beam/internal/errors",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/model/pipeline_v1",
+        "//go/pkg/beam/runners/universal/runnerlib",
+        "//go/pkg/beam/util/gcsx",
+        "@com_github_golang_protobuf//proto:go_default_library",
+        "@com_google_cloud_go_storage//:storage",
+        "@org_golang_google_api//dataflow/v1b3",
+        "@org_golang_google_api//googleapi",
+        "@org_golang_x_oauth2//google",
+    ],
+)
+
+go_test(
+    name = "dataflowlib_test",
+    srcs = [
+        "job_test.go",
+        "metrics_test.go",
+    ],
+    embed = [":dataflowlib"],
+    deps = [
+        "//go/pkg/beam/core/metrics",
+        "//go/pkg/beam/model/pipeline_v1",
+        "@com_github_google_go_cmp//cmp",
+        "@org_golang_google_api//dataflow/v1b3",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":dataflowlib",
+    visibility = ["//visibility:public"],
+)

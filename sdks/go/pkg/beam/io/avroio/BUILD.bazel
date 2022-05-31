@@ -1,0 +1,33 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "avroio",
+    srcs = ["avroio.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/io/avroio",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/io/filesystem",
+        "//go/pkg/beam/log",
+        "@com_github_linkedin_goavro//:goavro",
+    ],
+)
+
+go_test(
+    name = "avroio_test",
+    srcs = ["avroio_test.go"],
+    embed = [":avroio"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/io/filesystem/local",
+        "//go/pkg/beam/testing/passert",
+        "//go/pkg/beam/testing/ptest",
+        "@com_github_linkedin_goavro//:goavro",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":avroio",
+    visibility = ["//visibility:public"],
+)

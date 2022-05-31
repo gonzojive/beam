@@ -1,0 +1,14 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "execx",
+    srcs = ["exec.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/util/execx",
+    visibility = ["//visibility:public"],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":execx",
+    visibility = ["//visibility:public"],
+)

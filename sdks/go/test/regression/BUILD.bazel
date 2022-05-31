@@ -1,0 +1,43 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "regression",
+    srcs = [
+        "lperror.go",
+        "pardo.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/test/regression",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/testing/passert",
+        "//go/pkg/beam/testing/ptest",
+    ],
+)
+
+go_test(
+    name = "regression_test",
+    srcs = [
+        "lperror_test.go",
+        "pardo_test.go",
+        "regression_test.go",
+    ],
+    embed = [":regression"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/metrics",
+        "//go/pkg/beam/runners/dataflow",
+        "//go/pkg/beam/runners/flink",
+        "//go/pkg/beam/runners/samza",
+        "//go/pkg/beam/runners/spark",
+        "//go/pkg/beam/testing/passert",
+        "//go/pkg/beam/testing/ptest",
+        "//go/test/integration",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":regression",
+    visibility = ["//visibility:public"],
+)

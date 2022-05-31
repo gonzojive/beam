@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "init",
+    srcs = ["init.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/runtime/harness/init",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/core/runtime",
+        "//go/pkg/beam/core/runtime/harness",
+        "//go/pkg/beam/util/grpcx",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":init",
+    visibility = ["//visibility:public"],
+)

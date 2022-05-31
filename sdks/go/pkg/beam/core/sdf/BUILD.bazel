@@ -1,0 +1,26 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "sdf",
+    srcs = [
+        "continuation.go",
+        "lock.go",
+        "sdf.go",
+        "watermark_estimator.go",
+        "wrappedbounded.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/sdf",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "sdf_test",
+    srcs = ["continuation_test.go"],
+    embed = [":sdf"],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":sdf",
+    visibility = ["//visibility:public"],
+)

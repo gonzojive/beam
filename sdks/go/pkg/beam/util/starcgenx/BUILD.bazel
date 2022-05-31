@@ -1,0 +1,25 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "starcgenx",
+    srcs = ["starcgenx.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/util/starcgenx",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/core/graph",
+        "//go/pkg/beam/internal/errors",
+        "//go/pkg/beam/util/shimx",
+    ],
+)
+
+go_test(
+    name = "starcgenx_test",
+    srcs = ["starcgenx_test.go"],
+    embed = [":starcgenx"],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":starcgenx",
+    visibility = ["//visibility:public"],
+)

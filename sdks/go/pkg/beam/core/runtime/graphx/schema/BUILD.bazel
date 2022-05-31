@@ -1,0 +1,39 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "schema",
+    srcs = [
+        "logicaltypes.go",
+        "schema.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/runtime/graphx/schema",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/core/graph/coder",
+        "//go/pkg/beam/core/sdf",
+        "//go/pkg/beam/core/util/reflectx",
+        "//go/pkg/beam/internal/errors",
+        "//go/pkg/beam/model/pipeline_v1",
+        "@com_github_golang_protobuf//proto:go_default_library",
+        "@com_github_google_uuid//:uuid",
+    ],
+)
+
+go_test(
+    name = "schema_test",
+    srcs = ["schema_test.go"],
+    embed = [":schema"],
+    deps = [
+        "//go/pkg/beam/core/runtime",
+        "//go/pkg/beam/model/pipeline_v1",
+        "@com_github_golang_protobuf//proto:go_default_library",
+        "@com_github_google_go_cmp//cmp",
+        "@org_golang_google_protobuf//testing/protocmp",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":schema",
+    visibility = ["//visibility:public"],
+)

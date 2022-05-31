@@ -1,0 +1,45 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "artifact",
+    srcs = [
+        "materialize.go",
+        "stage.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/artifact",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/internal/errors",
+        "//go/pkg/beam/model/jobmanagement_v1",
+        "//go/pkg/beam/model/pipeline_v1",
+        "//go/pkg/beam/util/errorx",
+        "//go/pkg/beam/util/grpcx",
+        "@com_github_golang_protobuf//proto:go_default_library",
+    ],
+)
+
+go_test(
+    name = "artifact_test",
+    srcs = [
+        "materialize_test.go",
+        "server_test.go",
+        "stage_test.go",
+    ],
+    embed = [":artifact"],
+    deps = [
+        "//go/pkg/beam/internal/errors",
+        "//go/pkg/beam/model/jobmanagement_v1",
+        "//go/pkg/beam/model/pipeline_v1",
+        "//go/pkg/beam/util/grpcx",
+        "@com_github_golang_protobuf//proto:go_default_library",
+        "@org_golang_google_grpc//:go_default_library",
+        "@org_golang_google_grpc//metadata",
+        "@org_golang_x_net//context",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":artifact",
+    visibility = ["//visibility:public"],
+)

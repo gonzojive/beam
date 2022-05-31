@@ -1,0 +1,55 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "snippets",
+    srcs = [
+        "01_03intro.go",
+        "04transforms.go",
+        "06schemas.go",
+        "08windowing.go",
+        "09triggers.go",
+        "10metrics.go",
+        "doc.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/examples/snippets",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/graph/coder",
+        "//go/pkg/beam/core/graph/mtime",
+        "//go/pkg/beam/core/graph/window",
+        "//go/pkg/beam/core/graph/window/trigger",
+        "//go/pkg/beam/core/metrics",
+        "//go/pkg/beam/core/typex",
+        "//go/pkg/beam/io/rtrackers/offsetrange",
+        "//go/pkg/beam/io/textio",
+        "//go/pkg/beam/transforms/stats",
+    ],
+)
+
+go_test(
+    name = "snippets_test",
+    srcs = [
+        "04transforms_test.go",
+        "06schemas_test.go",
+        "10metrics_test.go",
+    ],
+    embed = [":snippets"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/graph/coder/testutil",
+        "//go/pkg/beam/core/runtime/graphx/schema",
+        "//go/pkg/beam/model/pipeline_v1",
+        "//go/pkg/beam/testing/passert",
+        "//go/pkg/beam/testing/ptest",
+        "@com_github_google_go_cmp//cmp",
+        "@org_golang_google_protobuf//proto",
+        "@org_golang_google_protobuf//testing/protocmp",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":snippets",
+    visibility = ["//visibility:public"],
+)

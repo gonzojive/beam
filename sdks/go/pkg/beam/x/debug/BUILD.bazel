@@ -1,0 +1,43 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "debug",
+    srcs = [
+        "debug.shims.go",
+        "doc.go",
+        "head.go",
+        "print.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/x/debug",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/runtime",
+        "//go/pkg/beam/core/runtime/exec",
+        "//go/pkg/beam/core/runtime/graphx/schema",
+        "//go/pkg/beam/core/sdf",
+        "//go/pkg/beam/core/typex",
+        "//go/pkg/beam/core/util/reflectx",
+        "//go/pkg/beam/log",
+    ],
+)
+
+go_test(
+    name = "debug_test",
+    srcs = [
+        "head_test.go",
+        "print_test.go",
+    ],
+    embed = [":debug"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/testing/passert",
+        "//go/pkg/beam/testing/ptest",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":debug",
+    visibility = ["//visibility:public"],
+)

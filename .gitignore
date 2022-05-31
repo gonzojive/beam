@@ -129,3 +129,9 @@ sdks/typescript/node_modules
 **/*.tfstate.*
 **/*.hcl
 **/*.tfvars
+
+# Bazel files
+sdks/bazel-bin
+sdks/bazel-out
+sdks/bazel-sdks
+sdks/bazel-testlogs

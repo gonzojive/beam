@@ -1,0 +1,25 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "pubsubio",
+    srcs = ["pubsubio.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/io/pubsubio",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/typex",
+        "//go/pkg/beam/core/util/protox",
+        "//go/pkg/beam/core/util/reflectx",
+        "//go/pkg/beam/model/pipeline_v1",
+        "//go/pkg/beam/register",
+        "//go/pkg/beam/util/pubsubx",
+        "@go_googleapis//google/pubsub/v1:pubsub_go_proto",
+        "@org_golang_google_protobuf//proto",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":pubsubio",
+    visibility = ["//visibility:public"],
+)

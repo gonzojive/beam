@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "sideinput_lib",
+    srcs = ["sideinput.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/test/load/sideinput",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/io/synthetic",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/register",
+        "//go/pkg/beam/x/beamx",
+        "//go/test/load",
+    ],
+)
+
+go_binary(
+    name = "sideinput",
+    embed = [":sideinput_lib"],
+    visibility = ["//visibility:public"],
+)

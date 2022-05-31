@@ -1,0 +1,20 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "jsonx",
+    srcs = ["jsonx.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/util/jsonx",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "jsonx_test",
+    srcs = ["jsonx_test.go"],
+    embed = [":jsonx"],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":jsonx",
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,49 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "passert",
+    srcs = [
+        "count.go",
+        "equals.go",
+        "floats.go",
+        "hash.go",
+        "passert.go",
+        "passert.shims.go",
+        "sum.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/testing/passert",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/runtime",
+        "//go/pkg/beam/core/runtime/exec",
+        "//go/pkg/beam/core/runtime/graphx/schema",
+        "//go/pkg/beam/core/sdf",
+        "//go/pkg/beam/core/typex",
+        "//go/pkg/beam/core/util/reflectx",
+        "//go/pkg/beam/internal/errors",
+        "//go/pkg/beam/transforms/filter",
+    ],
+)
+
+go_test(
+    name = "passert_test",
+    srcs = [
+        "count_test.go",
+        "equals_test.go",
+        "floats_test.go",
+        "passert_test.go",
+        "sum_test.go",
+    ],
+    embed = [":passert"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/testing/ptest",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":passert",
+    visibility = ["//visibility:public"],
+)

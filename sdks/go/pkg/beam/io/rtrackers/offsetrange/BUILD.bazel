@@ -1,0 +1,25 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "offsetrange",
+    srcs = ["offsetrange.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/io/rtrackers/offsetrange",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/core/graph/coder",
+        "//go/pkg/beam/core/runtime",
+    ],
+)
+
+go_test(
+    name = "offsetrange_test",
+    srcs = ["offsetrange_test.go"],
+    embed = [":offsetrange"],
+    deps = ["@com_github_google_go_cmp//cmp"],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":offsetrange",
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "debeziumio",
+    srcs = ["debezium.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/io/xlang/debeziumio",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/runtime/xlangx",
+        "//go/pkg/beam/core/typex",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":debeziumio",
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,36 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "synthetic",
+    srcs = ["synthetic.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/test/integration/synthetic",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/io/synthetic",
+        "//go/pkg/beam/testing/passert",
+    ],
+)
+
+go_test(
+    name = "synthetic_test",
+    srcs = ["synthetic_test.go"],
+    embed = [":synthetic"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/io/synthetic",
+        "//go/pkg/beam/runners/dataflow",
+        "//go/pkg/beam/runners/flink",
+        "//go/pkg/beam/runners/samza",
+        "//go/pkg/beam/runners/spark",
+        "//go/pkg/beam/testing/passert",
+        "//go/pkg/beam/testing/ptest",
+        "//go/test/integration",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":synthetic",
+    visibility = ["//visibility:public"],
+)

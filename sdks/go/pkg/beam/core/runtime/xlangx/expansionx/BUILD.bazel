@@ -1,0 +1,28 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "expansionx",
+    srcs = [
+        "download.go",
+        "process.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/runtime/xlangx/expansionx",
+    visibility = ["//visibility:public"],
+    deps = ["@org_golang_google_grpc//:go_default_library"],
+)
+
+go_test(
+    name = "expansionx_test",
+    srcs = [
+        "download_test.go",
+        "process_test.go",
+    ],
+    embed = [":expansionx"],
+    deps = ["@org_golang_google_grpc//:go_default_library"],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":expansionx",
+    visibility = ["//visibility:public"],
+)

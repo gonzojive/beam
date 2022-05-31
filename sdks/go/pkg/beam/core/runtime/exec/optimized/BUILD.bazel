@@ -1,0 +1,27 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "optimized",
+    srcs = [
+        "callers.go",
+        "decoders.go",
+        "emitters.go",
+        "encoders.go",
+        "gen.go",
+        "inputs.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/runtime/exec/optimized",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/core/runtime/exec",
+        "//go/pkg/beam/core/sdf",
+        "//go/pkg/beam/core/typex",
+        "//go/pkg/beam/core/util/reflectx",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":optimized",
+    visibility = ["//visibility:public"],
+)

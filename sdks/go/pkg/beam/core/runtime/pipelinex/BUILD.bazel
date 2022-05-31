@@ -1,0 +1,40 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "pipelinex",
+    srcs = [
+        "clone.go",
+        "replace.go",
+        "util.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/runtime/pipelinex",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/core/util/reflectx",
+        "//go/pkg/beam/internal/errors",
+        "//go/pkg/beam/model/pipeline_v1",
+        "@com_github_golang_protobuf//proto:go_default_library",
+    ],
+)
+
+go_test(
+    name = "pipelinex_test",
+    srcs = [
+        "clone_test.go",
+        "replace_test.go",
+        "util_test.go",
+    ],
+    embed = [":pipelinex"],
+    deps = [
+        "//go/pkg/beam/model/pipeline_v1",
+        "@com_github_golang_protobuf//proto:go_default_library",
+        "@com_github_google_go_cmp//cmp",
+        "@org_golang_google_protobuf//testing/protocmp",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":pipelinex",
+    visibility = ["//visibility:public"],
+)

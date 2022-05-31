@@ -1,0 +1,29 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "jobopts",
+    srcs = [
+        "options.go",
+        "stringSlice.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/options/jobopts",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/core",
+        "//go/pkg/beam/internal/errors",
+        "//go/pkg/beam/log",
+    ],
+)
+
+go_test(
+    name = "jobopts_test",
+    srcs = ["options_test.go"],
+    embed = [":jobopts"],
+    deps = ["//go/pkg/beam/core"],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":jobopts",
+    visibility = ["//visibility:public"],
+)

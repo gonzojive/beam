@@ -1,0 +1,32 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "schemaio",
+    srcs = ["schemaio.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/io/xlang/schemaio",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/graph/coder",
+        "//go/pkg/beam/core/runtime/graphx/schema",
+        "//go/pkg/beam/internal/errors",
+        "@org_golang_google_protobuf//proto",
+    ],
+)
+
+go_test(
+    name = "schemaio_test",
+    srcs = ["schemaio_test.go"],
+    embed = [":schemaio"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/runtime/xlangx",
+        "@com_github_google_go_cmp//cmp",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":schemaio",
+    visibility = ["//visibility:public"],
+)

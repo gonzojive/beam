@@ -1,0 +1,21 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library", "go_test")
+
+go_library(
+    name = "starcgen_lib",
+    srcs = ["starcgen.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/cmd/starcgen",
+    visibility = ["//visibility:private"],
+    deps = ["//go/pkg/beam/util/starcgenx"],
+)
+
+go_binary(
+    name = "starcgen",
+    embed = [":starcgen_lib"],
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "starcgen_test",
+    srcs = ["starcgen_test.go"],
+    embed = [":starcgen_lib"],
+)

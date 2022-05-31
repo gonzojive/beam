@@ -1,0 +1,39 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "top",
+    srcs = [
+        "top.go",
+        "top.shims.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/transforms/top",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/funcx",
+        "//go/pkg/beam/core/graph/coder",
+        "//go/pkg/beam/core/runtime",
+        "//go/pkg/beam/core/runtime/graphx/schema",
+        "//go/pkg/beam/core/typex",
+        "//go/pkg/beam/core/util/reflectx",
+        "//go/pkg/beam/internal/errors",
+    ],
+)
+
+go_test(
+    name = "top_test",
+    srcs = ["top_test.go"],
+    embed = [":top"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/util/reflectx",
+        "//go/pkg/beam/testing/passert",
+        "//go/pkg/beam/testing/ptest",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":top",
+    visibility = ["//visibility:public"],
+)

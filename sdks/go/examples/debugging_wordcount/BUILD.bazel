@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "debugging_wordcount_lib",
+    srcs = ["debugging_wordcount.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/examples/debugging_wordcount",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/io/textio",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/testing/passert",
+        "//go/pkg/beam/transforms/stats",
+        "//go/pkg/beam/x/beamx",
+    ],
+)
+
+go_binary(
+    name = "debugging_wordcount",
+    embed = [":debugging_wordcount_lib"],
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,21 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "sql",
+    srcs = ["sql.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/transforms/sql",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/graph",
+        "//go/pkg/beam/core/runtime/xlangx",
+        "//go/pkg/beam/core/typex",
+        "//go/pkg/beam/transforms/sql/sqlx",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":sql",
+    visibility = ["//visibility:public"],
+)

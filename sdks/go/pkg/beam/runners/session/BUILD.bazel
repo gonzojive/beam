@@ -1,0 +1,24 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "session",
+    srcs = ["session.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/runners/session",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/runtime/harness/session",
+        "//go/pkg/beam/internal/errors",
+        "//go/pkg/beam/log",
+        "//go/pkg/beam/model/fnexecution_v1",
+        "//go/pkg/beam/model/pipeline_v1",
+        "@com_github_golang_protobuf//proto:go_default_library",
+        "@org_golang_google_grpc//:go_default_library",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":session",
+    visibility = ["//visibility:public"],
+)

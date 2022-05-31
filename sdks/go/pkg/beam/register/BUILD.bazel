@@ -1,0 +1,48 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "register",
+    srcs = [
+        "doc.go",
+        "emitter.go",
+        "iter.go",
+        "register.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/register",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/core/runtime",
+        "//go/pkg/beam/core/runtime/exec",
+        "//go/pkg/beam/core/runtime/graphx/schema",
+        "//go/pkg/beam/core/sdf",
+        "//go/pkg/beam/core/typex",
+        "//go/pkg/beam/core/util/reflectx",
+    ],
+)
+
+go_test(
+    name = "register_test",
+    srcs = [
+        "example_register_test.go",
+        "register_test.go",
+    ],
+    embed = [":register"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/graph",
+        "//go/pkg/beam/core/graph/mtime",
+        "//go/pkg/beam/core/graph/window",
+        "//go/pkg/beam/core/runtime",
+        "//go/pkg/beam/core/runtime/exec",
+        "//go/pkg/beam/core/runtime/graphx",
+        "//go/pkg/beam/core/runtime/graphx/schema",
+        "//go/pkg/beam/core/typex",
+        "//go/pkg/beam/core/util/reflectx",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":register",
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,31 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "harnessopts",
+    srcs = [
+        "cache.go",
+        "sampler.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/util/harnessopts",
+    visibility = ["//visibility:public"],
+    deps = ["//go/pkg/beam/core/util/hooks"],
+)
+
+go_test(
+    name = "harnessopts_test",
+    srcs = [
+        "cache_test.go",
+        "sampler_test.go",
+    ],
+    embed = [":harnessopts"],
+    deps = [
+        "//go/pkg/beam/core/runtime/harness",
+        "//go/pkg/beam/core/util/hooks",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":harnessopts",
+    visibility = ["//visibility:public"],
+)

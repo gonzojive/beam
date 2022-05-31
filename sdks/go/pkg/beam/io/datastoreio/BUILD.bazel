@@ -1,0 +1,36 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "datastoreio",
+    srcs = ["datastore.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/io/datastoreio",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/runtime",
+        "//go/pkg/beam/internal/errors",
+        "//go/pkg/beam/log",
+        "@com_google_cloud_go_datastore//:datastore",
+        "@org_golang_google_api//iterator",
+        "@org_golang_google_api//option",
+    ],
+)
+
+go_test(
+    name = "datastoreio_test",
+    srcs = ["datastore_test.go"],
+    embed = [":datastoreio"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/runtime",
+        "//go/pkg/beam/testing/ptest",
+        "@com_google_cloud_go_datastore//:datastore",
+        "@org_golang_google_api//option",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":datastoreio",
+    visibility = ["//visibility:public"],
+)

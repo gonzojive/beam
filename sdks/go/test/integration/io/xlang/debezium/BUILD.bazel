@@ -1,0 +1,39 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "debezium",
+    srcs = ["debezium.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/test/integration/io/xlang/debezium",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core/util/reflectx",
+        "//go/pkg/beam/io/xlang/debeziumio",
+        "//go/pkg/beam/testing/passert",
+    ],
+)
+
+go_test(
+    name = "debezium_test",
+    srcs = ["debezium_test.go"],
+    embed = [":debezium"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/io/xlang/debeziumio",
+        "//go/pkg/beam/runners/dataflow",
+        "//go/pkg/beam/runners/flink",
+        "//go/pkg/beam/runners/samza",
+        "//go/pkg/beam/runners/spark",
+        "//go/pkg/beam/testing/ptest",
+        "//go/test/integration",
+        "@com_github_docker_go_connections//nat",
+        "@com_github_lib_pq//:pq",
+        "@com_github_testcontainers_testcontainers_go//:testcontainers-go",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":debezium",
+    visibility = ["//visibility:public"],
+)

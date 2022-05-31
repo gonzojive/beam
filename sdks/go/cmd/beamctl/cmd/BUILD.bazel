@@ -1,0 +1,27 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "cmd",
+    srcs = [
+        "artifact.go",
+        "provision.go",
+        "root.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/cmd/beamctl/cmd",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/artifact",
+        "//go/pkg/beam/model/fnexecution_v1",
+        "//go/pkg/beam/model/jobmanagement_v1",
+        "//go/pkg/beam/util/grpcx",
+        "@com_github_golang_protobuf//proto:go_default_library",
+        "@com_github_spf13_cobra//:cobra",
+        "@org_golang_google_grpc//:go_default_library",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":cmd",
+    visibility = ["//visibility:public"],
+)

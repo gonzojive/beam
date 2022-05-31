@@ -1,0 +1,32 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "gcsx",
+    srcs = ["gcs.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/util/gcsx",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/internal/errors",
+        "@com_google_cloud_go_storage//:storage",
+        "@org_golang_google_api//option",
+    ],
+)
+
+go_test(
+    name = "gcsx_test",
+    srcs = [
+        "example_test.go",
+        "gcs_test.go",
+    ],
+    embed = [":gcsx"],
+    deps = [
+        "//go/pkg/beam/internal/errors",
+        "@com_google_cloud_go_storage//:storage",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":gcsx",
+    visibility = ["//visibility:public"],
+)

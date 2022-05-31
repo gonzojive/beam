@@ -1,0 +1,18 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "perf",
+    srcs = ["perf.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/x/hooks/perf",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/core/util/hooks",
+        "//go/pkg/beam/model/fnexecution_v1",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":perf",
+    visibility = ["//visibility:public"],
+)

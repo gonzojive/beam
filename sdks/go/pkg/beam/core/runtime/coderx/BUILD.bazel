@@ -1,0 +1,40 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "coderx",
+    srcs = [
+        "coderx.shims.go",
+        "doc.go",
+        "float.go",
+        "int.go",
+        "string.go",
+        "varint.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/core/runtime/coderx",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam/core/graph/coder",
+        "//go/pkg/beam/core/runtime",
+        "//go/pkg/beam/core/runtime/graphx/schema",
+        "//go/pkg/beam/core/typex",
+        "//go/pkg/beam/core/util/reflectx",
+        "//go/pkg/beam/internal/errors",
+    ],
+)
+
+go_test(
+    name = "coderx_test",
+    srcs = [
+        "float_test.go",
+        "string_test.go",
+        "varint_test.go",
+    ],
+    embed = [":coderx"],
+    deps = ["//go/pkg/beam/core/util/reflectx"],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":coderx",
+    visibility = ["//visibility:public"],
+)
