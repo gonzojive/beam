@@ -16,3 +16,9 @@ go_library(
         "@org_golang_google_grpc//:go_default_library",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":session",
+    visibility = ["//visibility:public"],
+)

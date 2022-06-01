@@ -35,3 +35,9 @@ go_test(
         "//go/test/integration",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":regression",
+    visibility = ["//visibility:public"],
+)

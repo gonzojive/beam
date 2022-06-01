@@ -11,3 +11,9 @@ go_library(
         "//go/pkg/beam/register",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":load",
+    visibility = ["//visibility:public"],
+)

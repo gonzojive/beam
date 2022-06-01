@@ -25,3 +25,9 @@ go_test(
         "@org_golang_google_grpc//codes",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":pubsubx",
+    visibility = ["//visibility:public"],
+)

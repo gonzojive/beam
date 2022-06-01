@@ -19,3 +19,9 @@ go_library(
         "//go/pkg/beam/core/util/reflectx",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":testpipeline",
+    visibility = ["//visibility:public"],
+)

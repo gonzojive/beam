@@ -10,3 +10,9 @@ go_library(
         "//go/pkg/beam/model/fnexecution_v1",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":perf",
+    visibility = ["//visibility:public"],
+)

@@ -17,3 +17,9 @@ go_test(
     srcs = ["options_test.go"],
     embed = [":gcpopts"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":gcpopts",
+    visibility = ["//visibility:public"],
+)

@@ -12,3 +12,9 @@ go_test(
     srcs = ["errors_test.go"],
     embed = [":errors"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":errors",
+    visibility = ["//go/pkg/beam:__subpackages__"],
+)

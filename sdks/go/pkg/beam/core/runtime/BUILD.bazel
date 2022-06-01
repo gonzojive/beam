@@ -26,3 +26,9 @@ go_test(
     embed = [":runtime"],
     deps = ["//go/pkg/beam/core/util/reflectx"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":runtime",
+    visibility = ["//visibility:public"],
+)

@@ -11,3 +11,9 @@ go_library(
         "//go/pkg/beam/core/typex",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":debeziumio",
+    visibility = ["//visibility:public"],
+)

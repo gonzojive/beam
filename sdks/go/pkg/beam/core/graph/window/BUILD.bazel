@@ -29,3 +29,9 @@ go_test(
         "//go/pkg/beam/core/typex",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":window",
+    visibility = ["//visibility:public"],
+)

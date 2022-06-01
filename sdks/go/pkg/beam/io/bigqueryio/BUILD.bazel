@@ -21,3 +21,9 @@ go_test(
     srcs = ["bigquery_test.go"],
     embed = [":bigqueryio"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":bigqueryio",
+    visibility = ["//visibility:public"],
+)

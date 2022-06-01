@@ -27,3 +27,9 @@ go_test(
         "@com_github_xitongsys_parquet_go_source//local",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":parquetio",
+    visibility = ["//visibility:public"],
+)

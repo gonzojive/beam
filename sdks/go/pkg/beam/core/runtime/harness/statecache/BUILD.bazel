@@ -21,3 +21,9 @@ go_test(
         "//go/pkg/beam/model/fnexecution_v1",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":statecache",
+    visibility = ["//visibility:public"],
+)

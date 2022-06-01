@@ -14,3 +14,9 @@ go_test(
     embed = [":local"],
     deps = ["//go/pkg/beam/io/filesystem"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":local",
+    visibility = ["//visibility:public"],
+)

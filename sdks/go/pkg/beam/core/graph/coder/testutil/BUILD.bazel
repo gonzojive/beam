@@ -17,3 +17,9 @@ go_test(
     embed = [":testutil"],
     deps = ["//go/pkg/beam/core/graph/coder"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":testutil",
+    visibility = ["//visibility:public"],
+)

@@ -25,3 +25,9 @@ go_test(
         "@com_github_linkedin_goavro//:goavro",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":avroio",
+    visibility = ["//visibility:public"],
+)

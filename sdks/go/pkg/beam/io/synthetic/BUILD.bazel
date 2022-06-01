@@ -25,3 +25,9 @@ go_test(
     ],
     embed = [":synthetic"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":synthetic",
+    visibility = ["//visibility:public"],
+)

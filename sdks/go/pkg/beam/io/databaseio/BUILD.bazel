@@ -34,3 +34,9 @@ go_test(
         "@com_github_proullon_ramsql//driver",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":databaseio",
+    visibility = ["//visibility:public"],
+)

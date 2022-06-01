@@ -32,3 +32,9 @@ go_test(
         "@org_golang_google_protobuf//testing/protocmp",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":pipelinex",
+    visibility = ["//visibility:public"],
+)

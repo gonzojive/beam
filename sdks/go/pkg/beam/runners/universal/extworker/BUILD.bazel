@@ -23,3 +23,9 @@ go_test(
         "//go/pkg/beam/model/pipeline_v1",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":extworker",
+    visibility = ["//visibility:public"],
+)

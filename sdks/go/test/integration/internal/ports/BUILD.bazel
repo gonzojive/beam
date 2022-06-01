@@ -6,3 +6,9 @@ go_library(
     importpath = "github.com/apache/beam/sdks/v2/go/test/integration/internal/ports",
     visibility = ["//go/test/integration:__subpackages__"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":ports",
+    visibility = ["//go/test/integration:__subpackages__"],
+)

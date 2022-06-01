@@ -28,3 +28,9 @@ go_test(
         "//go/test/integration",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":wordcount",
+    visibility = ["//visibility:public"],
+)

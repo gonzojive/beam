@@ -41,3 +41,9 @@ go_test(
         "//go/pkg/beam/testing/ptest",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":passert",
+    visibility = ["//visibility:public"],
+)

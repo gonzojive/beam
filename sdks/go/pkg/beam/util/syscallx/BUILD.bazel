@@ -11,3 +11,9 @@ go_library(
     visibility = ["//visibility:public"],
     deps = ["//go/pkg/beam/internal/errors"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":syscallx",
+    visibility = ["//visibility:public"],
+)

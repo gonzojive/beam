@@ -12,3 +12,9 @@ go_library(
         "//go/pkg/beam/io/xlang/schemaio",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":bigqueryio",
+    visibility = ["//visibility:public"],
+)

@@ -35,3 +35,9 @@ go_test(
         "//go/pkg/beam/testing/ptest",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":debug",
+    visibility = ["//visibility:public"],
+)

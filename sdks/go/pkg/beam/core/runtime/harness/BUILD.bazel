@@ -62,3 +62,9 @@ go_test(
         "@org_golang_google_grpc//test/bufconn",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":harness",
+    visibility = ["//visibility:public"],
+)

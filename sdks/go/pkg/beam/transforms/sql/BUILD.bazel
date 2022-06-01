@@ -13,3 +13,9 @@ go_library(
         "//go/pkg/beam/transforms/sql/sqlx",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":sql",
+    visibility = ["//visibility:public"],
+)

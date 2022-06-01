@@ -21,3 +21,9 @@ go_test(
     embed = [":jobopts"],
     deps = ["//go/pkg/beam/core"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":jobopts",
+    visibility = ["//visibility:public"],
+)

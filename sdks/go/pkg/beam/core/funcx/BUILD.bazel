@@ -35,3 +35,9 @@ go_test(
         "//go/pkg/beam/core/util/reflectx",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":funcx",
+    visibility = ["//visibility:public"],
+)

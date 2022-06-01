@@ -24,3 +24,9 @@ go_test(
         "@com_google_cloud_go_storage//:storage",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":gcsx",
+    visibility = ["//visibility:public"],
+)

@@ -26,3 +26,9 @@ go_test(
         "//go/pkg/beam/testing/ptest",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":textio",
+    visibility = ["//visibility:public"],
+)

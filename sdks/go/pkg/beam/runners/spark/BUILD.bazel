@@ -10,3 +10,9 @@ go_library(
         "//go/pkg/beam/runners/universal",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":spark",
+    visibility = ["//visibility:public"],
+)

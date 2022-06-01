@@ -45,3 +45,9 @@ go_library(
         "//conditions:default": [],
     }),
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":jars",
+    visibility = ["//go/test/integration:__subpackages__"],
+)

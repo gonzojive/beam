@@ -26,3 +26,9 @@ go_test(
         "@com_github_google_go_cmp//cmp",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":metricsx",
+    visibility = ["//visibility:public"],
+)

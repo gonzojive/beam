@@ -28,3 +28,9 @@ go_test(
         "@org_golang_google_api//option",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":datastoreio",
+    visibility = ["//visibility:public"],
+)

@@ -17,3 +17,9 @@ go_test(
     srcs = ["starcgenx_test.go"],
     embed = [":starcgenx"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":starcgenx",
+    visibility = ["//visibility:public"],
+)

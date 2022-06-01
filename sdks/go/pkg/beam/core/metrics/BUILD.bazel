@@ -28,3 +28,9 @@ go_test(
         "@com_github_google_go_cmp//cmp/cmpopts",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":metrics",
+    visibility = ["//visibility:public"],
+)

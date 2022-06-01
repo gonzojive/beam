@@ -12,3 +12,9 @@ go_test(
     srcs = ["generate_test.go"],
     embed = [":shimx"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":shimx",
+    visibility = ["//visibility:public"],
+)

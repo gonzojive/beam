@@ -20,3 +20,9 @@ go_test(
     embed = [":teststream"],
     deps = ["//go/pkg/beam"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":teststream",
+    visibility = ["//visibility:public"],
+)

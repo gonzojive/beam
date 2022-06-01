@@ -20,3 +20,9 @@ go_library(
         "//go/pkg/beam/runners/universal",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":beamx",
+    visibility = ["//visibility:public"],
+)

@@ -31,3 +31,9 @@ go_test(
         "//go/pkg/beam/options/jobopts",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":dataflow",
+    visibility = ["//visibility:public"],
+)

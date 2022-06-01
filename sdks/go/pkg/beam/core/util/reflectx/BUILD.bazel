@@ -29,3 +29,9 @@ go_test(
     ],
     embed = [":reflectx"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":reflectx",
+    visibility = ["//visibility:public"],
+)

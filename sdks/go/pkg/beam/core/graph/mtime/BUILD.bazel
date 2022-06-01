@@ -12,3 +12,9 @@ go_test(
     srcs = ["time_test.go"],
     embed = [":mtime"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":mtime",
+    visibility = ["//visibility:public"],
+)

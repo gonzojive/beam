@@ -19,3 +19,9 @@ go_test(
     ],
     embed = [":filesystem"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":filesystem",
+    visibility = ["//visibility:public"],
+)

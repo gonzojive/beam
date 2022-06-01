@@ -10,3 +10,9 @@ go_library(
         "//go/pkg/beam/internal/errors",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":dot",
+    visibility = ["//visibility:public"],
+)

@@ -20,3 +20,9 @@ go_test(
     embed = [":expansionx"],
     deps = ["@org_golang_google_grpc//:go_default_library"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":expansionx",
+    visibility = ["//visibility:public"],
+)

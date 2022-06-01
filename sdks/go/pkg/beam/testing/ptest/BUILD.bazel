@@ -18,3 +18,9 @@ go_test(
     embed = [":ptest"],
     deps = ["//go/pkg/beam/testing/passert"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":ptest",
+    visibility = ["//visibility:public"],
+)

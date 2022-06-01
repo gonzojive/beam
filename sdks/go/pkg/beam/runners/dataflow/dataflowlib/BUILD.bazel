@@ -57,3 +57,9 @@ go_test(
         "@org_golang_google_api//dataflow/v1b3",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":dataflowlib",
+    visibility = ["//visibility:public"],
+)

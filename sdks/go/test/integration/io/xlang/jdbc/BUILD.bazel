@@ -32,3 +32,9 @@ go_test(
         "@in_gopkg_retry_v1//:retry_v1",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":jdbc",
+    visibility = ["//visibility:public"],
+)

@@ -12,3 +12,9 @@ go_test(
     srcs = ["jsonx_test.go"],
     embed = [":jsonx"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":jsonx",
+    visibility = ["//visibility:public"],
+)

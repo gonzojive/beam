@@ -19,3 +19,9 @@ go_test(
     ],
     embed = [":ioutilx"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":ioutilx",
+    visibility = ["//visibility:public"],
+)

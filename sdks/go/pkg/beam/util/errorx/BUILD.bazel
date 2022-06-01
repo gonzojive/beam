@@ -12,3 +12,9 @@ go_test(
     srcs = ["guarded_test.go"],
     embed = [":errorx"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":errorx",
+    visibility = ["//visibility:public"],
+)

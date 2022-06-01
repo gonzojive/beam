@@ -6,3 +6,9 @@ go_library(
     importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/runners",
     visibility = ["//visibility:public"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":runners",
+    visibility = ["//visibility:public"],
+)

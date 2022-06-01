@@ -19,3 +19,9 @@ go_library(
         "@com_github_golang_protobuf//proto:go_default_library",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":universal",
+    visibility = ["//visibility:public"],
+)

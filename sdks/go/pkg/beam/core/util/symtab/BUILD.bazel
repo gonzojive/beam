@@ -13,3 +13,9 @@ go_test(
     srcs = ["symtab_test.go"],
     embed = [":symtab"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":symtab",
+    visibility = ["//visibility:public"],
+)

@@ -17,3 +17,9 @@ go_library(
         "@org_golang_x_net//context",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":gcsproxy",
+    visibility = ["//visibility:public"],
+)

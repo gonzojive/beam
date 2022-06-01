@@ -22,3 +22,9 @@ go_test(
     embed = [":gcs"],
     deps = ["//go/pkg/beam/io/filesystem"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":gcs",
+    visibility = ["//visibility:public"],
+)

@@ -31,3 +31,9 @@ go_test(
         "@com_github_testcontainers_testcontainers_go//:testcontainers-go",
     ],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":debezium",
+    visibility = ["//visibility:public"],
+)

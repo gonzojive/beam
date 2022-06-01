@@ -25,3 +25,9 @@ go_test(
     embed = [":typex"],
     deps = ["//go/pkg/beam/core/util/reflectx"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":typex",
+    visibility = ["//visibility:public"],
+)
