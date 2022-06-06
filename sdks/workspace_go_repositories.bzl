@@ -2028,8 +2028,8 @@ def gazelle_managed_go_repositories():
     go_repository(
         name = "com_google_cloud_go_storage",
         importpath = "cloud.google.com/go/storage",
-        sum = "h1:F6IlQJZrZM++apn9V5/VfS3gbTUYg98PS3EMQAzqtfg=",
-        version = "v1.22.1",
+        sum = "h1:Ljj+ZXVEhCr/1+4ZhvtteN1ND7UUsNTlduGclLh8GO0=",
+        version = "v1.15.0",
     )
     go_repository(
         name = "com_shuralyov_dmitri_gpu_mtl",
