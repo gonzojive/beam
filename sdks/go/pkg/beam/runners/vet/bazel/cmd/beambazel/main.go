@@ -28,12 +28,14 @@ import (
 )
 
 var (
-	outFile  = flag.String("output", "", "Output .go file with code that makes the pipeline performant.")
-	tmplData = flag.String("template_json", "", "Template data as JSON.")
+	outFile      = flag.String("output", "", "Output .go file with code that makes the pipeline performant.")
+	templateJSON = flag.String("template_json", "", "Template data as JSON.")
 )
 
 type templateData struct {
-	ImportPath string `json:"import_path"`
+	PipelineImportPath string `json:"pipeline_import_path"`
+	ConstructPipeline  string `json:"construct_pipeline"`
+	GoPackage          string `json:"go_package"`
 }
 
 func main() {
@@ -47,15 +49,24 @@ func run() error {
 	if *outFile == "" {
 		return fmt.Errorf("must specify --output")
 	}
-	if *tmplData == "" {
+	if *templateJSON == "" {
 		return fmt.Errorf("must specify --template_json")
 	}
 	data := &templateData{}
-	if err := json.Unmarshal([]byte(*tmplData), data); err != nil {
+	if err := json.Unmarshal([]byte(*templateJSON), data); err != nil {
 		return fmt.Errorf("failed top parse template JSON: %w", err)
 	}
+	if data.ConstructPipeline == "" {
+		return fmt.Errorf("construct_pipeline is empty - bad --template_json argument")
+	}
+	if data.PipelineImportPath == "" {
+		return fmt.Errorf("pipeline_import_path is empty - bad --template_json argument")
+	}
+	if data.GoPackage == "" {
+		return fmt.Errorf("go_package is empty - bad --template_json argument")
+	}
 	str := &strings.Builder{}
-	if err := programTemplate.Execute(str, nil); err != nil {
+	if err := programTemplate.Execute(str, data); err != nil {
 		return fmt.Errorf("template execution error: %w", err)
 	}
 	return ioutil.WriteFile(*outFile, []byte(str.String()), 0664)
@@ -66,10 +77,15 @@ func run() error {
 var programTemplate = template.Must(template.New("main").Parse(`package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"io/ioutil"
 	"log"
+
+	"github.com/apache/beam/sdks/v2/go/pkg/beam/runners/vet"
+
+	pipelinelib "{{.PipelineImportPath}}"
 )
 
 var (
@@ -78,16 +94,16 @@ var (
 
 func main() {
 	flag.Parse()
-	if err := run(); err != nil {
+	if err := run(context.Background()); err != nil {
 		log.Fatalf("error generating code: %v", err)
 	}
 }
 
-func run() error {
+func run(ctx context.Context) error {
 	if *outFile == "" {
 		return fmt.Errorf("must specify --output")
 	}
-	code, err := "", error(nil)
+	code, err := GenerateCode(ctx, {{.GoPackage | printf "%q"}})
 	if err != nil {
 		return fmt.Errorf("error generating code: %v", err)
 	}
@@ -95,5 +111,19 @@ func run() error {
 		return err
 	}
 	return nil
+}
+
+// GenerateCode returns generated Go code that should be compiled into the
+// target package.
+func GenerateCode(ctx context.Context, packageName string) (string, error) {
+	p, err := pipelinelib.{{.ConstructPipeline}}(ctx)
+	if err != nil {
+		return "", fmt.Errorf("pipeline construction for code generator failed: %w", err)
+	}
+	eval, err := vet.Evaluate(ctx, p)
+	if err != nil {
+		return "", err
+	}
+	return eval.GenerateToString(packageName)
 }
 `))

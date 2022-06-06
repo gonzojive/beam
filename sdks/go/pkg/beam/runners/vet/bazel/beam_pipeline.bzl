@@ -5,6 +5,7 @@ load(
 
 def _go_beam_code_generator_binary(ctx):
     go = go_context(ctx)
+
     ctx.actions.run(
         inputs = [],
         outputs = [ctx.outputs.out],
@@ -13,13 +14,51 @@ def _go_beam_code_generator_binary(ctx):
             ctx.outputs.out.path,
             "--template_json",
             json.encode_indent(struct(
-                import_path = ctx.attr.blank_import,
+                go_package = ctx.attr.package,
+                pipeline_import_path = ctx.attr.pipeline_importpath,
+                construct_pipeline = "PipelineForCodeGenerator",
             )),
         ],
-        progress_message = "Generating program that will generate code for package %s" % ctx.attr.blank_import,
+        progress_message = "Generating program that will generate code for package %s" % ctx.attr.pipeline_importpath,
         executable = ctx.executable._main_file_generator_tool,
     )
-    return [DefaultInfo()]
+
+    # Example:
+    # https://sourcegraph.com/github.com/bazelbuild/bazel-gazelle/-/blob/internal/gazelle_binary.bzl?L60
+    library = go.new_library(go, is_main = True)
+    attr = struct(
+        srcs = [struct(files = [ctx.outputs.out])],
+        deps = ctx.attr.generator_deps + ctx.attr._standard_generator_deps,
+        embed = [],
+    )
+    source = go.library_to_source(go, attr, library, ctx.coverage_instrumented())
+
+    archive, executable, runfiles = go.binary(
+        go,
+        name = ctx.label.name,
+        source = source,
+        version_file = ctx.version_file,
+        info_file = ctx.info_file,
+    )
+
+    source = go.library_to_source(go, attr, library, ctx.coverage_instrumented())
+
+    # source = go.library_to_source(go, attr, library, ctx.coverage_instrumented())
+
+    # archive, out_executable, runfiles = go.binary(
+    #     name = ctx.attr.name,
+    #     source = source,
+    # )
+    return [
+        library,
+        source,
+        archive,
+        DefaultInfo(
+            files = depset([executable]),
+            runfiles = runfiles,
+            executable = executable,
+        ),
+    ]
 
 # See https://bazel.build/rules/rules-tutorial and
 # https://github.com/bazelbuild/rules_go/blob/master/go/toolchains.rst#writing-new-go-rules
@@ -29,9 +68,12 @@ def _go_beam_code_generator_binary(ctx):
 # https://sourcegraph.com/github.com/bazelbuild/rules_go/-/blob/go/private/rules/binary.bzl
 go_beam_code_generator_binary = rule(
     implementation = _go_beam_code_generator_binary,
+    executable = True,
     attrs = {
+        "generator_deps": attr.label_list(),
         "out": attr.output(mandatory = True),
-        "blank_import": attr.string(),
+        "package": attr.string(mandatory = True),
+        "pipeline_importpath": attr.string(mandatory = True),
         "_go_config": attr.label(default = "@io_bazel_rules_go//:go_config"),
         "_stdlib": attr.label(default = "@io_bazel_rules_go//:stdlib"),
         "_go_context_data": attr.label(
@@ -43,6 +85,12 @@ go_beam_code_generator_binary = rule(
             cfg = "exec",
             allow_files = True,
             default = Label("//go/pkg/beam/runners/vet/bazel/cmd/beambazel:beambazel"),
+        ),
+        "_standard_generator_deps": attr.label_list(
+            default = [
+                Label("//go/pkg/beam"),
+                Label("//go/pkg/beam/runners/vet"),
+            ],
         ),
     },
     toolchains = ["@io_bazel_rules_go//go:toolchain"],

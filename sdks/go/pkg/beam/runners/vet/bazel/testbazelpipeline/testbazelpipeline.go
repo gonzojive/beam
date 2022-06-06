@@ -7,6 +7,12 @@ import (
 	"github.com/apache/beam/sdks/v2/go/pkg/beam/runners/vet"
 )
 
+func PipelineForCodeGenerator(_ context.Context) (*beam.Pipeline, error) {
+	p := beam.NewPipeline()
+	ConstructPipeline(p.Root())
+	return p, nil
+}
+
 func ConstructPipeline(s beam.Scope) {
 	inputs := beam.Create(s, 1, 2, 3)
 	same := beam.ParDo(s, identInt, inputs)
