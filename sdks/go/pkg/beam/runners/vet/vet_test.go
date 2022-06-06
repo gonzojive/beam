@@ -17,8 +17,9 @@ package vet
 
 import (
 	"context"
-	"github.com/apache/beam/sdks/v2/go/pkg/beam/runners/vet/testpipeline"
 	"testing"
+
+	"github.com/apache/beam/sdks/v2/go/pkg/beam/runners/vet/testpipeline"
 
 	"github.com/apache/beam/sdks/v2/go/pkg/beam"
 )

@@ -20,10 +20,14 @@ go_library(
 
 go_test(
     name = "vet_test",
-    srcs = ["vet_test.go"],
+    srcs = [
+        "vet_test.go",
+        "vet_user_test.go",
+    ],
     embed = [":vet"],
     deps = [
         "//go/pkg/beam",
+        "//go/pkg/beam/runners/vet/bazel/testbazelpipeline",
         "//go/pkg/beam/runners/vet/testpipeline",
     ],
 )

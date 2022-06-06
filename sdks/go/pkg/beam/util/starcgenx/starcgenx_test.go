@@ -16,26 +16,68 @@
 package starcgenx
 
 import (
+	"flag"
 	"go/ast"
 	"go/importer"
 	"go/parser"
 	"go/token"
 	"strings"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
+
+	// Needed for imports to work in test code.
+	_ "math/rand"
+	_ "time"
+
+	_ "github.com/apache/beam/sdks/v2/go/pkg/beam"
 )
 
+var (
+	strict = flag.Bool("beam_skip_cases_with_missing_imports", true, "If true, when an import isn't found by the importer, the test case gets skipped.")
+)
+
+type stats struct {
+	AllExported bool
+	Functions   int
+	Types       int
+	Wraps       int
+	Funcs       int
+	Emits       int
+	Iters       int
+}
+
+func statsFromExtractor(e *Extractor) stats {
+	return stats{
+		AllExported: e.allExported,
+		Functions:   len(e.functions),
+		Types:       len(e.types),
+		Wraps:       len(e.wraps),
+		Funcs:       len(e.funcs),
+		Emits:       len(e.emits),
+		Iters:       len(e.iters),
+	}
+}
+
+type example struct {
+	name      string
+	pkg       string
+	files     []string
+	ids       []string
+	expected  []string
+	excluded  []string
+	imports   []string
+	wantStats stats
+}
+
 func TestExtractor(t *testing.T) {
-	tests := []struct {
-		name     string
-		pkg      string
-		files    []string
-		ids      []string
-		expected []string
-		excluded []string
-		imports  []string
-	}{
+	tests := []example{
 		{name: "pardo1", files: []string{pardo}, pkg: "pardo",
 			expected: []string{"runtime.RegisterFunction(MyIdent)", "runtime.RegisterFunction(MyDropVal)", "runtime.RegisterFunction(MyOtherDoFn)", "runtime.RegisterType(reflect.TypeOf((*foo)(nil)).Elem())", "funcMakerStringГString", "funcMakerIntStringГInt", "funcMakerFooГStringFoo"},
+		},
+		{name: "identGeneric", files: []string{identGeneric}, pkg: "pardo",
+			expected:  []string{"runtime.RegisterFunction(MyIdent)", "funcMakerTГT"},
+			wantStats: stats{AllExported: true, Functions: 1, Types: 1, Wraps: 0, Funcs: 1, Emits: 0, Iters: 0},
 		},
 		{name: "emits1", files: []string{emits}, pkg: "emits",
 			expected: []string{"runtime.RegisterFunction(anotherFn)", "runtime.RegisterFunction(emitFn)", "runtime.RegisterType(reflect.TypeOf((*reInt)(nil)).Elem())", "funcMakerEmitIntIntГ", "emitMakerIntInt", "funcMakerIntIntEmitIntIntГError"},
@@ -82,19 +124,23 @@ func TestExtractor(t *testing.T) {
 	for _, test := range tests {
 		test := test
 
-		var skip bool
-		for _, p := range test.imports {
-			if _, err := imp.Import(p); err != nil {
-				t.Logf("unable to import %v", p)
-				skip = true
-			}
-		}
-		if skip {
-			t.Logf("skipping testcase %v", test.name)
-			continue
-		}
-
 		t.Run(test.name, func(t *testing.T) {
+
+			var skip bool
+			for _, p := range test.imports {
+				if _, err := imp.Import(p); err != nil {
+					if *strict {
+						t.Errorf("unable to import %v (error)", p)
+					} else {
+						t.Logf("unable to import %v (tolerated error)", p)
+					}
+					skip = true
+				}
+			}
+			if skip {
+				t.Logf("skipping testcase %v", test.name)
+				return
+			}
 			fset := token.NewFileSet()
 			var fs []*ast.File
 			for i, f := range test.files {
@@ -110,6 +156,11 @@ func TestExtractor(t *testing.T) {
 				t.Fatal(err)
 			}
 			data := e.Generate("test_shims.go")
+
+			if diff := cmp.Diff(test.wantStats, statsFromExtractor(e)); diff != "" {
+				t.Logf("Unexpected Extractor overall stats (-want, +got): %s", diff)
+			}
+
 			s := string(data)
 			for _, i := range test.expected {
 				if !strings.Contains(s, i) {
@@ -121,6 +172,12 @@ func TestExtractor(t *testing.T) {
 					t.Errorf("found %q in generated file", i)
 				}
 			}
+
+			// Ensure the generated code is valid.
+			if _, err := parser.ParseFile(fset, "test_shims.go", string(data), 0); err != nil {
+				t.Errorf("generated code is invalid: %v", err)
+			}
+
 			t.Log(s)
 		})
 	}
@@ -142,6 +199,14 @@ type foo struct{}
 
 func MyOtherDoFn(v foo) (string,foo) {
 	return "constant",  foo{}
+}
+`
+
+const identGeneric = `
+package pardo
+
+func MyIdent[T any](v T) T {
+	return v
 }
 `
 

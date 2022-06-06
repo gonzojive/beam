@@ -219,6 +219,19 @@ func NameType(t reflect.Type) string {
 
 // Generate produces a go file under the given package.
 func (e *Eval) Generate(packageName string) {
+	str, err := e.GenerateToString(packageName)
+	if err != nil {
+		panic(err)
+	}
+	// ignore  write errors
+	e.w.Write([]byte(str))
+}
+
+// Generate produces a go file under the given package.
+func (e *Eval) GenerateToString(packageName string) (string, error) {
+	if e.Performant() {
+		return "", nil
+	}
 	// Here's where we shove everything into the Top template type.
 	// Need to swap in typex.* for beam.* where appropriate.
 	e.diag("Diagnostic output pre-amble for the code generator\n")
@@ -273,7 +286,7 @@ func (e *Eval) Generate(packageName string) {
 		e.diagf("%s, %v\n", k, t)
 		emt, ok := makeEmitter(t)
 		if !ok {
-			panic(fmt.Sprintf("%v is not an emit, but we expected it to be one.", t))
+			return "", (fmt.Errorf("%v is not an emit, but we expected it to be one.", t))
 		}
 		emitters = append(emitters, emt)
 	}
@@ -283,7 +296,7 @@ func (e *Eval) Generate(packageName string) {
 		e.diagf("%s, %v\n", ipt, t)
 		itr, ok := makeInput(t)
 		if !ok {
-			panic(fmt.Sprintf("%v is not an emit, but we expected it to be one.", t))
+			return "", (fmt.Errorf("%v is not an emit, but we expected it to be one.", t))
 		}
 		inputs = append(inputs, itr)
 	}
@@ -304,7 +317,9 @@ func (e *Eval) Generate(packageName string) {
 		Emitters:  emitters,
 		Inputs:    inputs,
 	}
-	shimx.File(&e.w, &top)
+	out := &strings.Builder{}
+	shimx.File(out, &top)
+	return out.String(), nil
 }
 
 func makeEmitter(t reflect.Type) (shimx.Emitter, bool) {

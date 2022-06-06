@@ -15,7 +15,14 @@ go_library(
 go_test(
     name = "starcgenx_test",
     srcs = ["starcgenx_test.go"],
+    args = [
+        "--beam_skip_cases_with_missing_imports=true",
+    ],
     embed = [":starcgenx"],
+    deps = [
+        "//go/pkg/beam",
+        "@com_github_google_go_cmp//cmp",
+    ],
 )
 
 alias(

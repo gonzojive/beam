@@ -32,6 +32,7 @@ go_test(
         "count_test.go",
         "equals_test.go",
         "floats_test.go",
+        "hash_test.go",
         "passert_test.go",
         "sum_test.go",
     ],

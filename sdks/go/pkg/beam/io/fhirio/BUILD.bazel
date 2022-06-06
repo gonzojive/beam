@@ -1,0 +1,38 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "fhirio",
+    srcs = [
+        "common.go",
+        "read.go",
+    ],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/io/fhirio",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/core",
+        "//go/pkg/beam/internal/errors",
+        "//go/pkg/beam/register",
+        "@org_golang_google_api//healthcare/v1:healthcare",
+        "@org_golang_google_api//option",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":fhirio",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "fhirio_test",
+    srcs = [
+        "fakes_test.go",
+        "read_test.go",
+    ],
+    embed = [":fhirio"],
+    deps = [
+        "//go/pkg/beam/testing/passert",
+        "//go/pkg/beam/testing/ptest",
+    ],
+)

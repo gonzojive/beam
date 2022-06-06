@@ -1,0 +1,42 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library", "go_test")
+# load("@com_github_apache_beam_sdks_v2//go/pkg/beam/runners/vet/bazel:beam_pipeline.bzl", "go_beam_library")
+
+go_library(
+    name = "testbazelpipeline",
+    srcs = ["testbazelpipeline.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/runners/vet/bazel/testbazelpipeline",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/runners/vet",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":testbazelpipeline",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "testbazelpipeline_test",
+    srcs = ["testbazelpipeline_test.go"],
+    embed = [":testbazelpipeline"],
+    deps = [
+        "//go/pkg/beam",
+        "//go/pkg/beam/runners/vet",
+    ],
+)
+
+go_library(
+    name = "testbazelpipeline_custom_codegen_lib",
+    srcs = ["testbazelpipeline_custom_codegen.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/runners/vet/bazel/testbazelpipeline/testbazelpipeline_custom_codegen_lib",
+    visibility = ["//visibility:private"],
+)
+
+go_binary(
+    name = "testbazelpipeline_custom_codegen",
+    embed = [":testbazelpipeline_custom_codegen_lib"],
+    visibility = ["//visibility:public"],
+)
