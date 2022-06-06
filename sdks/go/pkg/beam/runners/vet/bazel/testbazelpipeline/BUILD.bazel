@@ -1,5 +1,5 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library", "go_test")
-# load("@com_github_apache_beam_sdks_v2//go/pkg/beam/runners/vet/bazel:beam_pipeline.bzl", "go_beam_library")
+load("@com_github_apache_beam_sdks_v2//go/pkg/beam/runners/vet/bazel:beam_pipeline.bzl", "go_beam_code_generator_binary")
 
 go_library(
     name = "testbazelpipeline",
@@ -33,6 +33,15 @@ go_library(
     srcs = ["testbazelpipeline_custom_codegen.go"],
     importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/runners/vet/bazel/testbazelpipeline/testbazelpipeline_custom_codegen_lib",
     visibility = ["//visibility:private"],
+    deps = [
+        ":testbazelpipeline",
+    ],
+)
+
+go_beam_code_generator_binary(
+    name = "testbazelpipeline_auto_codegen",
+    out = "testbazelpipeline_auto_codegen_out.go",
+    blank_import = "github.com/apache/beam/sdks/v2/go/pkg/beam/runners/vet/bazel/testbazelpipeline",
 )
 
 go_binary(

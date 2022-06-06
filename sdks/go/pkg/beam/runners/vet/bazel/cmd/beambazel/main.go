@@ -17,6 +17,83 @@
 // rules for defining Go pipelines.
 package main
 
-func main() {
+import (
+	"encoding/json"
+	"flag"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"strings"
+	"text/template"
+)
 
+var (
+	outFile  = flag.String("output", "", "Output .go file with code that makes the pipeline performant.")
+	tmplData = flag.String("template_json", "", "Template data as JSON.")
+)
+
+type templateData struct {
+	ImportPath string `json:"import_path"`
 }
+
+func main() {
+	flag.Parse()
+	if err := run(); err != nil {
+		log.Fatalf("error generating code: %v", err)
+	}
+}
+
+func run() error {
+	if *outFile == "" {
+		return fmt.Errorf("must specify --output")
+	}
+	if *tmplData == "" {
+		return fmt.Errorf("must specify --template_json")
+	}
+	data := &templateData{}
+	if err := json.Unmarshal([]byte(*tmplData), data); err != nil {
+		return fmt.Errorf("failed top parse template JSON: %w", err)
+	}
+	str := &strings.Builder{}
+	if err := programTemplate.Execute(str, nil); err != nil {
+		return fmt.Errorf("template execution error: %w", err)
+	}
+	return ioutil.WriteFile(*outFile, []byte(str.String()), 0664)
+}
+
+//func executeToString(t *template.)
+
+var programTemplate = template.Must(template.New("main").Parse(`package main
+
+import (
+	"flag"
+	"fmt"
+	"io/ioutil"
+	"log"
+)
+
+var (
+	outFile = flag.String("output", "", "Output .go file with code that makes the pipeline performant.")
+)
+
+func main() {
+	flag.Parse()
+	if err := run(); err != nil {
+		log.Fatalf("error generating code: %v", err)
+	}
+}
+
+func run() error {
+	if *outFile == "" {
+		return fmt.Errorf("must specify --output")
+	}
+	code, err := "", error(nil)
+	if err != nil {
+		return fmt.Errorf("error generating code: %v", err)
+	}
+	if err := ioutil.WriteFile(*outFile, []byte(code), 0664); err != nil {
+		return err
+	}
+	return nil
+}
+`))
