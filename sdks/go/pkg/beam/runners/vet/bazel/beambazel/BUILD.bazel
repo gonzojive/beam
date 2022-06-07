@@ -1,0 +1,15 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "beambazel",
+    srcs = ["beambazel.go"],
+    importpath = "github.com/apache/beam/sdks/v2/go/pkg/beam/runners/vet/bazel/beambazel",
+    visibility = ["//visibility:public"],
+    deps = ["//go/pkg/beam"],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":beambazel",
+    visibility = ["//visibility:public"],
+)
