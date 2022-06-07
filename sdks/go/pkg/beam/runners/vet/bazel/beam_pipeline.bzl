@@ -8,10 +8,10 @@ def _go_beam_code_generator_binary(ctx):
 
     ctx.actions.run(
         inputs = [],
-        outputs = [ctx.outputs.out],
+        outputs = [ctx.outputs.generator_src_out],
         arguments = [
             "--output",
-            ctx.outputs.out.path,
+            ctx.outputs.generator_src_out.path,
             "--template_json",
             json.encode_indent(struct(
                 go_package = ctx.attr.package,
@@ -27,7 +27,7 @@ def _go_beam_code_generator_binary(ctx):
     # https://sourcegraph.com/github.com/bazelbuild/bazel-gazelle/-/blob/internal/gazelle_binary.bzl?L60
     library = go.new_library(go, is_main = True)
     attr = struct(
-        srcs = [struct(files = [ctx.outputs.out])],
+        srcs = [struct(files = [ctx.outputs.generator_src_out])],
         deps = ctx.attr.generator_deps + ctx.attr._standard_generator_deps,
         embed = [],
     )
@@ -42,6 +42,17 @@ def _go_beam_code_generator_binary(ctx):
     )
 
     source = go.library_to_source(go, attr, library, ctx.coverage_instrumented())
+
+    ctx.actions.run(
+        inputs = [],
+        outputs = [ctx.outputs.out],
+        arguments = [
+            "--output",
+            ctx.outputs.out.path,
+        ],
+        progress_message = "Generating program that will generate code for package %s" % ctx.attr.pipeline_importpath,
+        executable = executable,
+    )
 
     # source = go.library_to_source(go, attr, library, ctx.coverage_instrumented())
 
@@ -71,6 +82,7 @@ go_beam_code_generator_binary = rule(
     executable = True,
     attrs = {
         "generator_deps": attr.label_list(),
+        "generator_src_out": attr.output(mandatory = True),
         "out": attr.output(mandatory = True),
         "package": attr.string(mandatory = True),
         "pipeline_importpath": attr.string(mandatory = True),
