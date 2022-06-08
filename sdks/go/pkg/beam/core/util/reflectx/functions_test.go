@@ -17,7 +17,6 @@ package reflectx
 
 import (
 	"reflect"
-	"strings"
 	"testing"
 )
 
@@ -26,9 +25,40 @@ func testFunction() int64 {
 }
 
 func TestFunctionName(t *testing.T) {
-	if got, want := FunctionName(testFunction), "reflectx.testFunction"; !strings.Contains(got, want) {
-		t.Fatalf("FunctionName(testFunction)=%v, should contain %v", got, want)
+	cannotBeNamed := func() {}
+	for _, tt := range []struct {
+		name string
+		fn   any
+		want string
+	}{
+		{
+			"easy case",
+			testFunction,
+			"github.com/apache/beam/sdks/v2/go/pkg/beam/core/util/reflectx.testFunction",
+		},
+		{
+			"generic case 1",
+			Identity[int],
+			"github.com/apache/beam/sdks/v2/go/pkg/beam/core/util/reflectx.TestFunctionName.func3",
+		},
+		{
+			"generic case 2",
+			Identity[int64],
+			"github.com/apache/beam/sdks/v2/go/pkg/beam/core/util/reflectx.TestFunctionName.func4",
+		},
+		{
+			"local function",
+			cannotBeNamed,
+			"github.com/apache/beam/sdks/v2/go/pkg/beam/core/util/reflectx.TestFunctionName.func1",
+		},
+	} {
+		t.Run(tt.name, func(t *testing.T) {
+			if got, want := FunctionName(tt.fn), tt.want; got != want {
+				t.Errorf("FunctionName(%v) got %q, want %q", tt.fn, got, want)
+			}
+		})
 	}
+
 }
 
 func TestLoadFunction(t *testing.T) {
@@ -48,3 +78,5 @@ func TestLoadFunction(t *testing.T) {
 		t.Errorf("got %d, wanted %d", out[0].Int(), testFunction())
 	}
 }
+
+func Identity[T any](x T) T { return x }
