@@ -259,7 +259,7 @@ import (
 
 func init() {
 {{- range $x := .Functions}}
-	runtime.RegisterFunction({{$x}})
+	runtime.RegisterFunction({{$x}}) // boom
 {{- end}}
 {{- range $x := .Types}}
 	runtime.RegisterType(reflect.TypeOf((*{{$x}})(nil)).Elem())

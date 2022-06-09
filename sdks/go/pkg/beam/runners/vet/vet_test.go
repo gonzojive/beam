@@ -17,10 +17,10 @@ package vet
 
 import (
 	"context"
-	"github.com/apache/beam/sdks/v2/go/pkg/beam/runners/vet/testpipeline"
 	"testing"
 
 	"github.com/apache/beam/sdks/v2/go/pkg/beam"
+	"github.com/apache/beam/sdks/v2/go/pkg/beam/runners/vet/testpipeline"
 )
 
 func TestEvaluate(t *testing.T) {
@@ -59,6 +59,42 @@ func TestEvaluate(t *testing.T) {
 			}
 			if e.UsesDefaultReflectionShims() != test.ref {
 				t.Errorf("e.UsesDefaultReflectionShims() = %v, want %v", e.UsesDefaultReflectionShims(), test.ref)
+			}
+		})
+	}
+}
+
+func Test_parseRuntimeFunctionName(t *testing.T) {
+	tests := []struct {
+		name                       string
+		wantImport, wantIdentifier string
+		wantErr                    bool
+	}{
+		{
+			name:           "github.com/gonzojive/rules_beam/go/tests/testbazelpipeline.identInt",
+			wantImport:     "github.com/gonzojive/rules_beam/go/tests/testbazelpipeline",
+			wantIdentifier: "identInt",
+			wantErr:        false,
+		},
+		{
+			name:           "abc.xyz/foobar.identInt",
+			wantImport:     "abc.xyz/foobar",
+			wantIdentifier: "identInt",
+			wantErr:        false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotSym, err := parseRuntimeFunctionName(tt.name)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("parseRuntimeFunctionName() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if err != nil {
+				return
+			}
+			if got, want := gotSym.Package().ImportPath(), tt.wantImport; got != want {
+				t.Errorf("parseRuntimeFunctionName(%q) got import path %q, want %q", tt.name, got, want)
 			}
 		})
 	}

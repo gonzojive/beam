@@ -29,11 +29,13 @@ import (
 	"context"
 	"fmt"
 	"reflect"
+	"regexp"
 	"strings"
 	"unicode"
 	"unicode/utf8"
 
 	"github.com/apache/beam/sdks/v2/go/pkg/beam/util/shimx"
+	"github.com/meta-programming/go-codegenutil"
 
 	"github.com/apache/beam/sdks/v2/go/pkg/beam"
 	"github.com/apache/beam/sdks/v2/go/pkg/beam/core/funcx"
@@ -232,6 +234,7 @@ func (e *Eval) GenerateToString(packageName string) (string, error) {
 	if e.Performant() {
 		return "", nil
 	}
+	fileImports := codegenutil.NewFileImports(codegenutil.AssumedPackageName(packageName))
 	// Here's where we shove everything into the Top template type.
 	// Need to swap in typex.* for beam.* where appropriate.
 	e.diag("Diagnostic output pre-amble for the code generator\n")
@@ -240,13 +243,12 @@ func (e *Eval) GenerateToString(packageName string) (string, error) {
 	var functions []string
 	for fn, t := range e.functions {
 		e.diagf("%s, %v\n", fn, t)
-		n := strings.Split(fn, ".")
-		// If this is the main package, we don't need the package qualifier
-		if n[0] == "main" {
-			functions = append(functions, n[1])
-		} else {
-			functions = append(functions, fn)
+		sym, err := parseRuntimeFunctionName(t.Fn.Name())
+		if err != nil {
+			e.diagf("error processing function %q: %v", t.Fn.Name(), err)
+			continue
 		}
+		functions = append(functions, sym.FormatEnsureImported(fileImports))
 	}
 	e.diag("Types\n")
 	var types []string
@@ -610,4 +612,23 @@ func (e *Eval) extractFuncxFn(fn *funcx.Fn) {
 			e.needInput(p.T) // ???? Might be unnecessary?
 		}
 	}
+}
+
+const (
+	// A letter according to the go spec: https://go.dev/ref/spec#unicode_letter
+	// See https://github.com/google/re2/wiki/Syntax and
+	//letterREConst        = `(?:_|\p{L})`
+	letterREConst        = `[_\p{L}]`
+	letterOrDigitREConst = `[_\p{L}0-9]`
+	identifierREConst    = `(?:` + letterREConst + letterOrDigitREConst + `*)`
+)
+
+var identifierRE = regexp.MustCompile(`^(.*)\.(` + identifierREConst + `)$`)
+
+func parseRuntimeFunctionName(name string) (*codegenutil.Symbol, error) {
+	match := identifierRE.FindStringSubmatch(name)
+	if len(match) == 0 {
+		return nil, fmt.Errorf("don't know how to parse name of runtime.Func %q", name)
+	}
+	return codegenutil.AssumedPackageName(match[1]).Symbol(match[2]), nil
 }
